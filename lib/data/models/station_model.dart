@@ -1,11 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:velo_toulouse_redesign/data/models/bike_model.dart';
+import 'bike_model.dart';
 
 class StationModel {
   final String id;
   final String name;
   final double latitude;
-  final double longtitude;
+  final double longitude;
   final int capacity;
   final List<BikeModel> bikes;
 
@@ -13,29 +12,31 @@ class StationModel {
     required this.id,
     required this.name,
     required this.latitude,
-    required this.longtitude,
+    required this.longitude,
     required this.capacity,
     required this.bikes,
   });
 
-  List<BikeModel> get dockedBikes => bikes.where((b) => b.status == BikeStatus.docked).toList();
+  List<BikeModel> get dockedBikes =>
+      bikes.where((b) => b.status == BikeStatus.docked).toList();
 
   int get availableBikes => dockedBikes.length;
   int get availableSpots => capacity - availableBikes;
 
-  factory StationModel.fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) {
-    final data = doc.data()!;
+  factory StationModel.fromSnapshot(String key, dynamic value) {
+    final data = Map<String, dynamic>.from(value as Map);
 
-    List<BikeModel> bikes = (data['bikes'] as List<dynamic>)
-        .map((b) => BikeModel.fromMap(b as Map<String, dynamic>))
+    final rawBikes = data['bikes'] as Map;
+    final bikes = rawBikes.values
+        .map((b) => BikeModel.fromMap(Map<String, dynamic>.from(b as Map)))
         .toList();
 
     return StationModel(
-      id: doc.id,
+      id: key,
       name: data['name'] as String,
-      latitude: data['latitude'] as double,
-      longtitude: data['longtitude'] as double,
-      capacity: data['capacity'] as int,
+      latitude: (data['latitude'] as num).toDouble(),
+      longitude: (data['longitude'] as num).toDouble(),
+      capacity: (data['capacity'] as num).toInt(),
       bikes: bikes,
     );
   }

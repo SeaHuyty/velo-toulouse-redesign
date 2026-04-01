@@ -1,4 +1,4 @@
-enum BikeStatus { docked, inUser }
+enum BikeStatus { docked, inUse }
 
 class BikeModel {
   final String plateNumber;
