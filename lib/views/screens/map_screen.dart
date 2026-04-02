@@ -5,6 +5,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:velo_toulouse_redesign/core/app_config.dart';
 import 'package:velo_toulouse_redesign/data/models/station_model.dart';
 import 'package:velo_toulouse_redesign/viewmodels/station_viewmodel.dart';
+import 'package:velo_toulouse_redesign/views/widgets/station_bottom_sheet.dart';
 
 class MapScreen extends ConsumerStatefulWidget {
   const MapScreen({super.key});
@@ -50,27 +51,21 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   }
 
   void _showStationInfo(StationModel station) {
+    final screenHeight = MediaQuery.of(context).size.height;
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      builder: (_) => SizedBox(
-        width: double.infinity,
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                station.name,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
-              Text('Available Bikes: ${station.availableBikes}'),
-              Text('Available Spots: ${station.availableSpots}'),
-            ],
-          ),
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        height: screenHeight * 0.8,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
         ),
+        child: StationBottomSheet(station: station),
       ),
     );
   }
