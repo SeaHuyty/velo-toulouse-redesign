@@ -1,4 +1,4 @@
-import 'bike_model.dart';
+import 'package:velo_toulouse_redesign/data/models/bike_model.dart';
 
 class StationModel {
   final String id;
