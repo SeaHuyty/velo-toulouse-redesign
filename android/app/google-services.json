@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "107736598732",
+    "firebase_url": "https://velo-toulouse-71603-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "velo-toulouse-71603",
+    "storage_bucket": "velo-toulouse-71603.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:107736598732:android:fe0ed86b28276db16f5a69",
+        "android_client_info": {
+          "package_name": "com.example.velo_toulouse_redesign"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtYtHP_PPJz17iciTN0ISac25POFhu1tM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

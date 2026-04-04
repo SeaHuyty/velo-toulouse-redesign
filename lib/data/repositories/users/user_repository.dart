@@ -1,0 +1,10 @@
+import 'package:velo_toulouse_redesign/data/models/user_model.dart';
+
+abstract class UserRepository {
+  Future<String> signUp(String email, String password);
+  Future<String> login(String email, String password);
+  Future<void> signOut();
+  Future<void> createUserProfile(UserModel user);
+  Future<UserModel?> getUserProfile(String id);
+  Future<void> resetPassword(String email);
+}

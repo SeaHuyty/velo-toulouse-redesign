@@ -1,0 +1,25 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "velo-toulouse-71603",
+          "appId": "1:107736598732:android:fe0ed86b28276db16f5a69",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "velo-toulouse-71603",
+          "configurations": {
+            "android": "1:107736598732:android:fe0ed86b28276db16f5a69",
+            "ios": "1:107736598732:ios:49e819381c8b33466f5a69",
+            "macos": "1:107736598732:ios:49e819381c8b33466f5a69",
+            "web": "1:107736598732:web:3df4497be5192cd26f5a69",
+            "windows": "1:107736598732:web:dbf6ef56bf5f5c106f5a69"
+          }
+        }
+      }
+    }
+  }
+}
