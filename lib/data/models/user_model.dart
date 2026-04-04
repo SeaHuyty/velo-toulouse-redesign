@@ -4,7 +4,7 @@ class UserModel {
   final String gender;
   final String email;
   final String phoneNumber;
-  final String password;
+  final String? password;
   final String imageUrl;
 
   UserModel({
@@ -13,7 +13,7 @@ class UserModel {
     required this.gender,
     required this.email,
     required this.phoneNumber,
-    required this.password,
+    this.password,
     required this.imageUrl,
   });
 
@@ -24,7 +24,6 @@ class UserModel {
       gender: data['gender'] as String,
       phoneNumber: data['phone_number'] as String,
       email: data['email'] as String,
-      password: data['password'] as String? ?? '',
       imageUrl: data['image_url'] as String? ?? '',
     );
   }

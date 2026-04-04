@@ -56,7 +56,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
         gender: _selectedGender!,
         email: _emailController.text.trim(),
         phoneNumber: _phoneController.text.trim(),
-        password: _passwordController.text,
         imageUrl: '',
       ),
     );
