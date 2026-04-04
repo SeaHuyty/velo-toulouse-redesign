@@ -22,22 +22,4 @@ class StationModel {
 
   int get availableBikes => dockedBikes.length;
   int get availableSpots => capacity - availableBikes;
-
-  factory StationModel.fromSnapshot(String key, dynamic value) {
-    final data = Map<String, dynamic>.from(value as Map);
-
-    final rawBikes = data['bikes'] as Map;
-    final bikes = rawBikes.values
-        .map((b) => BikeModel.fromMap(Map<String, dynamic>.from(b as Map)))
-        .toList();
-
-    return StationModel(
-      id: key,
-      name: data['name'] as String,
-      latitude: (data['latitude'] as num).toDouble(),
-      longitude: (data['longitude'] as num).toDouble(),
-      capacity: (data['capacity'] as num).toInt(),
-      bikes: bikes,
-    );
-  }
 }
