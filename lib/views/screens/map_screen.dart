@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:velo_toulouse_redesign/core/app_config.dart';
 import 'package:velo_toulouse_redesign/data/models/station_model.dart';
-import 'package:velo_toulouse_redesign/viewmodels/station_viewmodel.dart';
+import 'package:velo_toulouse_redesign/view_model/station_viewmodel.dart';
 import 'package:velo_toulouse_redesign/views/widgets/station_bottom_sheet.dart';
 
 class MapScreen extends ConsumerStatefulWidget {

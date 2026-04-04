@@ -1,10 +1,17 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velo_toulouse_redesign/core/app_config.dart';
+import 'package:velo_toulouse_redesign/firebase_options.dart';
+import 'package:velo_toulouse_redesign/providers/auth_provider.dart';
+import 'package:velo_toulouse_redesign/views/screens/auth/login_screen.dart';
 import 'package:velo_toulouse_redesign/views/screens/map_screen.dart';
+import 'package:velo_toulouse_redesign/views/screens/splash_screen.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await dotenv.load();
   final token = AppConfig.mapboxToken;
   if (token.isEmpty) {
@@ -18,6 +25,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Velo Toulouse', debugShowCheckedModeBanner: false, home: const MapScreen());
+    return MaterialApp(
+      title: 'Velo Toulouse',
+      debugShowCheckedModeBanner: false,
+      home: const AuthWrapper(),
+    );
+  }
+}
+
+class AuthWrapper extends ConsumerWidget {
+  const AuthWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authStateProvider);
+
+    return authState.when(
+      loading: () => const SplashScreen(),
+      error: (_, _) => const LoginScreen(),
+      data: (user) => user != null ? const MapScreen() : const LoginScreen(),
+    );
   }
 }
