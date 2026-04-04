@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:velo_toulouse_redesign/core/app_config.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -40,54 +41,54 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
+  static FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyBTYl0ElQKkpN7jGkY-iLQ3ND7oZxNxPyc',
     appId: '1:107736598732:web:3df4497be5192cd26f5a69',
     messagingSenderId: '107736598732',
     projectId: 'velo-toulouse-71603',
     authDomain: 'velo-toulouse-71603.firebaseapp.com',
-    databaseURL: 'https://velo-toulouse-71603-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'velo-toulouse-71603.firebasestorage.app',
+    databaseURL: AppConfig.firebaseUrl,
+    storageBucket: AppConfig.storageBucketUrl,
     measurementId: 'G-CW6FEJPRCE',
   );
 
-  static const FirebaseOptions android = FirebaseOptions(
+  static FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBtYtHP_PPJz17iciTN0ISac25POFhu1tM',
     appId: '1:107736598732:android:fe0ed86b28276db16f5a69',
     messagingSenderId: '107736598732',
     projectId: 'velo-toulouse-71603',
-    databaseURL: 'https://velo-toulouse-71603-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'velo-toulouse-71603.firebasestorage.app',
+    databaseURL: AppConfig.firebaseUrl,
+    storageBucket: AppConfig.storageBucketUrl,
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
+  static FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBur7Md28ab6jSwtpoONqHcnQi5bzT4vUo',
     appId: '1:107736598732:ios:49e819381c8b33466f5a69',
     messagingSenderId: '107736598732',
     projectId: 'velo-toulouse-71603',
-    databaseURL: 'https://velo-toulouse-71603-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'velo-toulouse-71603.firebasestorage.app',
+    databaseURL: AppConfig.firebaseUrl,
+    storageBucket: AppConfig.storageBucketUrl,
     iosBundleId: 'com.example.veloToulouseRedesign',
   );
 
-  static const FirebaseOptions macos = FirebaseOptions(
+  static FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyBur7Md28ab6jSwtpoONqHcnQi5bzT4vUo',
     appId: '1:107736598732:ios:49e819381c8b33466f5a69',
     messagingSenderId: '107736598732',
     projectId: 'velo-toulouse-71603',
-    databaseURL: 'https://velo-toulouse-71603-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'velo-toulouse-71603.firebasestorage.app',
+    databaseURL: AppConfig.firebaseUrl,
+    storageBucket: AppConfig.storageBucketUrl,
     iosBundleId: 'com.example.veloToulouseRedesign',
   );
 
-  static const FirebaseOptions windows = FirebaseOptions(
+  static FirebaseOptions windows = FirebaseOptions(
     apiKey: 'AIzaSyBTYl0ElQKkpN7jGkY-iLQ3ND7oZxNxPyc',
     appId: '1:107736598732:web:dbf6ef56bf5f5c106f5a69',
     messagingSenderId: '107736598732',
     projectId: 'velo-toulouse-71603',
     authDomain: 'velo-toulouse-71603.firebaseapp.com',
-    databaseURL: 'https://velo-toulouse-71603-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'velo-toulouse-71603.firebasestorage.app',
+    databaseURL: AppConfig.firebaseUrl,
+    storageBucket: AppConfig.storageBucketUrl,
     measurementId: 'G-8D3RM1VDVL',
   );
 }
