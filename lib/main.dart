@@ -6,7 +6,7 @@ import 'package:velo_toulouse_redesign/core/app_config.dart';
 import 'package:velo_toulouse_redesign/firebase_options.dart';
 import 'package:velo_toulouse_redesign/providers/auth_provider.dart';
 import 'package:velo_toulouse_redesign/views/screens/auth/login_screen.dart';
-import 'package:velo_toulouse_redesign/views/screens/map_screen.dart';
+import 'package:velo_toulouse_redesign/views/screens/main_screen.dart';
 import 'package:velo_toulouse_redesign/views/screens/splash_screen.dart';
 
 Future<void> main() async {
@@ -43,7 +43,7 @@ class AuthWrapper extends ConsumerWidget {
     return authState.when(
       loading: () => const SplashScreen(),
       error: (_, _) => const LoginScreen(),
-      data: (user) => user != null ? const MapScreen() : const LoginScreen(),
+      data: (user) => user != null ? const MainScreen() : const LoginScreen(),
     );
   }
 }
