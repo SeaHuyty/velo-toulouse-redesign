@@ -1,18 +1,21 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velo_toulouse_redesign/data/models/user_model.dart';
 import 'package:velo_toulouse_redesign/data/repositories/users/user_repository.dart';
 
 class UserFirebaseRepository implements UserRepository {
   final FirebaseAuth _auth;
-  final FirebaseFirestore _firestore;
+  final FirebaseDatabase _database;
 
   UserFirebaseRepository({
     FirebaseAuth? auth,
-    FirebaseFirestore? firestore,
+    FirebaseDatabase? database,
   })  : _auth = auth ?? FirebaseAuth.instance,
-        _firestore = firestore ?? FirebaseFirestore.instance;
+        _database = database ?? FirebaseDatabase.instance;
+
+  DatabaseReference _userRef(String uid) =>
+      _database.ref('users/$uid');
 
   @override
   Future<String> signUp(String email, String password) async {
@@ -37,14 +40,20 @@ class UserFirebaseRepository implements UserRepository {
 
   @override
   Future<void> createUserProfile(UserModel user) async {
-    await _firestore.collection('users').doc(user.id).set(user.toMap());
+    await _userRef(user.id).set(user.toMap());
+  }
+
+  @override
+  Future<void> updateUserProfile(UserModel user) async {
+    await _userRef(user.id).update(user.toMap());
   }
 
   @override
   Future<UserModel?> getUserProfile(String id) async {
-    final doc = await _firestore.collection('users').doc(id).get();
-    if (!doc.exists || doc.data() == null) return null;
-    return UserModel.fromMap(doc.id, doc.data()!);
+    final snapshot = await _userRef(id).get();
+    if (!snapshot.exists || snapshot.value == null) return null;
+    final data = Map<String, dynamic>.from(snapshot.value as Map);
+    return UserModel.fromMap(id, data);
   }
 
   @override

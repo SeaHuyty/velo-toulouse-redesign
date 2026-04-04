@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velo_toulouse_redesign/view_model/user_view_model.dart';
 import 'package:velo_toulouse_redesign/views/screens/auth/forgot_password_screen.dart';
 import 'package:velo_toulouse_redesign/views/screens/auth/sign_up_screen.dart';
+import 'package:velo_toulouse_redesign/views/screens/main_screen.dart';
 
 const String appLogoImagePath = 'assets/images/velo_logo.png';
 
@@ -28,10 +29,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
-    await ref.read(userViewModelProvider.notifier).login(
-          _emailController.text.trim(),
-          _passwordController.text,
-        );
+    await ref
+        .read(userViewModelProvider.notifier)
+        .login(_emailController.text.trim(), _passwordController.text);
+
+    if (!mounted) return;
+
+    final userState = ref.read(userViewModelProvider);
+    if (userState.hasError) return;
+
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => const MainScreen()),
+      (_) => false,
+    );
   }
 
   @override
@@ -59,12 +69,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const Spacer(),
-                Center(
-                  child: Image.asset(
-                    appLogoImagePath,
-                    height: 200,
-                  ),
-                ),
+                Center(child: Image.asset(appLogoImagePath, height: 200)),
                 const SizedBox(height: 40),
                 TextFormField(
                   controller: _emailController,

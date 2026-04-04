@@ -5,6 +5,7 @@ abstract class UserRepository {
   Future<String> login(String email, String password);
   Future<void> signOut();
   Future<void> createUserProfile(UserModel user);
+  Future<void> updateUserProfile(UserModel user);
   Future<UserModel?> getUserProfile(String id);
   Future<void> resetPassword(String email);
 }

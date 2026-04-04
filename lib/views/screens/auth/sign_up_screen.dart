@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velo_toulouse_redesign/data/models/user_model.dart';
 import 'package:velo_toulouse_redesign/view_model/user_view_model.dart';
 import 'package:velo_toulouse_redesign/views/screens/auth/login_screen.dart';
+import 'package:velo_toulouse_redesign/views/screens/main_screen.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
@@ -45,19 +46,27 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     );
 
     if (!mounted) return;
-
-    final userState = ref.read(userViewModelProvider);
-    if (userState.hasError) return;
+    if (uid == null) return;
 
     await notifier.createUserProfile(
       UserModel(
-        id: uid ?? '',
+        id: uid,
         name: _nameController.text.trim(),
         gender: _selectedGender!,
         email: _emailController.text.trim(),
         phoneNumber: _phoneController.text.trim(),
         imageUrl: '',
       ),
+    );
+
+    if (!mounted) return;
+
+    final state = ref.read(userViewModelProvider);
+    if (state.hasError) return;
+
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => const MainScreen()),
+      (_) => false,
     );
   }
 
@@ -68,13 +77,13 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     ref.listen(userViewModelProvider, (_, next) {
       next.whenOrNull(
         error: (e, _) {
-          final message = (e is FirebaseAuthException &&
-                  e.code == 'email-already-in-use')
+          final message =
+              (e is FirebaseAuthException && e.code == 'email-already-in-use')
               ? 'This email is already registered. Please login instead.'
               : e.toString();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(message)),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(message)));
         },
       );
     });
@@ -103,8 +112,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   controller: _nameController,
                   icon: Icons.person_outline,
                   hint: 'Username',
-                  validator: (v) =>
-                      (v == null || v.trim().isEmpty) ? 'Name is required' : null,
+                  validator: (v) => (v == null || v.trim().isEmpty)
+                      ? 'Name is required'
+                      : null,
                 ),
                 const SizedBox(height: 16),
                 _buildField(
@@ -142,7 +152,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       setState(() => _obscurePassword = !_obscurePassword),
                   validator: (v) {
                     if (v == null || v.isEmpty) return 'Password is required';
-                    if (v.length < 6) return 'Password must be at least 6 characters';
+                    if (v.length < 6) {
+                      return 'Password must be at least 6 characters';
+                    }
                     return null;
                   },
                 ),
@@ -153,7 +165,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   hint: 'Confirm password',
                   obscure: _obscureConfirmPassword,
                   onToggle: () => setState(
-                      () => _obscureConfirmPassword = !_obscureConfirmPassword),
+                    () => _obscureConfirmPassword = !_obscureConfirmPassword,
+                  ),
                   validator: (v) {
                     if (v == null || v.isEmpty) {
                       return 'Confirm password is required';
@@ -178,8 +191,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       .map((g) => DropdownMenuItem(value: g, child: Text(g)))
                       .toList(),
                   onChanged: (v) => setState(() => _selectedGender = v),
-                  validator: (v) =>
-                      v == null ? 'Gender is required' : null,
+                  validator: (v) => v == null ? 'Gender is required' : null,
                 ),
                 const SizedBox(height: 32),
                 ElevatedButton(

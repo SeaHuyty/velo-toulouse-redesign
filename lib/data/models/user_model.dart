@@ -17,6 +17,22 @@ class UserModel {
     required this.imageUrl,
   });
 
+  UserModel copyWith({
+    String? name,
+    String? gender,
+    String? phoneNumber,
+    String? imageUrl,
+  }) {
+    return UserModel(
+      id: id,
+      name: name ?? this.name,
+      gender: gender ?? this.gender,
+      email: email,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      imageUrl: imageUrl ?? this.imageUrl,
+    );
+  }
+
   factory UserModel.fromMap(String id, Map<String, dynamic> data) {
     return UserModel(
       id: id,
