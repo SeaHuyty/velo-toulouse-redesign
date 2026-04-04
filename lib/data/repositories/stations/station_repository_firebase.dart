@@ -3,11 +3,14 @@ import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:velo_toulouse_redesign/core/app_config.dart';
+import 'package:velo_toulouse_redesign/data/dtos/station_dto.dart';
 import 'package:velo_toulouse_redesign/data/models/station_model.dart';
+import 'package:velo_toulouse_redesign/data/repositories/stations/station_repository.dart';
 
-class StationRepository {
+class StationRepositoryFirebase extends StationRepository {
   final String _baseUrl = '${AppConfig.firebaseUrl}/stations';
 
+  @override
   Future<List<StationModel>> getStations() async {
     final response = await http.get(Uri.parse('$_baseUrl.json'));
 
@@ -24,11 +27,11 @@ class StationRepository {
     final Map<String, dynamic> data = Map<String, dynamic>.from(decoded);
 
     return data.entries
-        .map((e) => StationModel.fromSnapshot(e.key, e.value))
+        .map((e) => StationDto.fromSnapshot(e.key, e.value))
         .toList();
   }
 }
 
-final stationRepositoryProvider = Provider<StationRepository>((ref) {
-  return StationRepository();
+final stationRepositoryProvider = Provider<StationRepositoryFirebase>((ref) {
+  return StationRepositoryFirebase();
 });
