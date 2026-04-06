@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:velo_toulouse_redesign/data/models/station_model.dart';
-import 'package:velo_toulouse_redesign/views/screens/payment_screen.dart';
+import 'package:velo_toulouse_redesign/views/screens/bike_renting/bike_renting_screen.dart';
 
 class StationBottomSheet extends StatelessWidget {
   final StationModel station;
@@ -84,7 +84,10 @@ class StationBottomSheet extends StatelessWidget {
               return ListTile(
                 onTap: () => Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const PaymentScreen()),
+                  MaterialPageRoute(builder: (_) => BikeRentingScreen(
+                    stationId: station.id,
+                    bikePlateNumber: bike.plateNumber,
+                  )),
                 ),
                 leading: const CircleAvatar(
                   backgroundColor: Colors.orange,
