@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velo_toulouse_redesign/data/models/user_model.dart';
 import 'package:velo_toulouse_redesign/data/repositories/users/user_firebase_repository.dart';
-import 'package:velo_toulouse_redesign/providers/auth_provider.dart';
+import 'package:velo_toulouse_redesign/core/providers/auth_provider.dart';
 
 class UserViewModel extends AsyncNotifier<UserModel?> {
   @override

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:velo_toulouse_redesign/views/theme/theme.dart';
+import 'package:velo_toulouse_redesign/core/theme/theme.dart';
 import 'package:velo_toulouse_redesign/views/widgets/display/devider.dart';
 
 class SingleTicketCard extends StatelessWidget {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:velo_toulouse_redesign/core/utils/app_color.dart';
+import 'package:velo_toulouse_redesign/core/theme/theme.dart';
 import 'package:velo_toulouse_redesign/core/utils/app_config.dart';
 import 'package:velo_toulouse_redesign/data/models/station_model.dart';
 import 'package:velo_toulouse_redesign/view_model/station_viewmodel.dart';
@@ -27,7 +27,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              const Icon(Icons.location_pin, color: AppColor.primaryColor, size: 65),
+              const Icon(Icons.location_pin, color: AppColors.primaryColor, size: 65),
               Positioned(
                 bottom: 19,
                 right: 11.5,
@@ -37,7 +37,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                   child: Text(
                     '${station.availableBikes}',
                     style: const TextStyle(
-                      color: AppColor.primaryColor,
+                      color: AppColors.primaryColor,
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
                     ),
