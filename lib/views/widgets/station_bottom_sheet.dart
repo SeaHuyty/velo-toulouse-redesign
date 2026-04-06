@@ -1,10 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:velo_toulouse_redesign/data/models/station_model.dart';
-import 'package:velo_toulouse_redesign/views/screens/payment_screen.dart';
+import 'package:velo_toulouse_redesign/views/screens/bike_renting/bike_renting_screen.dart';
 
 class StationBottomSheet extends StatelessWidget {
   final StationModel station;
   const StationBottomSheet({super.key, required this.station});
+
+  Future<void> _openDirections(BuildContext context) async {
+    final destination = '${station.latitude},${station.longitude}';
+    final mapsUrl = Uri.parse(
+      'https://www.google.com/maps/dir/?api=1&destination=$destination&travelmode=walking',
+    );
+
+    final launched = await launchUrl(
+      mapsUrl,
+      mode: LaunchMode.externalApplication,
+    );
+
+    if (!launched && context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Could not open Google Maps.')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +94,20 @@ class StationBottomSheet extends StatelessWidget {
 
         const SizedBox(height: 12),
 
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: () => _openDirections(context),
+              icon: const Icon(Icons.directions),
+              label: const Text('Get Directions'),
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 12),
+
         // Bike list — scrollable
         Expanded(
           child: ListView.builder(
@@ -84,7 +117,10 @@ class StationBottomSheet extends StatelessWidget {
               return ListTile(
                 onTap: () => Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const PaymentScreen()),
+                  MaterialPageRoute(builder: (_) => BikeRentingScreen(
+                    stationId: station.id,
+                    bikePlateNumber: bike.plateNumber,
+                  )),
                 ),
                 leading: const CircleAvatar(
                   backgroundColor: Colors.orange,

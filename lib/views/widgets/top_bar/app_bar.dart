@@ -15,26 +15,32 @@ class StationAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: Row(
-        children: [
-          IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () => goBack(context),
-          ),
-          Text(
-            title,
-            style: AppTextStyles.body.copyWith(
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-              color:AppColors.black,
-            ),
-          )
-        ],
-          
+    return Container(
+        height: 50,
+        margin: const EdgeInsets.only(top: 16), 
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        decoration: BoxDecoration(
+        color: AppColors.darkGreen, 
+        
       ),
-      
+        child: Row(
+          children: [
+            IconButton(
+              icon: Icon(Icons.arrow_back),
+              color: Colors.white,
+              onPressed: () => goBack(context),
+            ),
+            SizedBox(width: 16),
+            Text(
+              title,
+              style: AppTextStyles.heading.copyWith(
+                fontSize: 24,
+                fontWeight: FontWeight.w500,
+                color:AppColors.white,
+              ),
+            )
+          ],
+        ),
     );
    
   }
