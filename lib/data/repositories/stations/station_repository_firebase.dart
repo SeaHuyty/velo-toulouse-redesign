@@ -30,6 +30,21 @@ class StationRepositoryFirebase extends StationRepository {
         .map((e) => StationDto.fromSnapshot(e.key, e.value))
         .toList();
   }
+   @override
+  Future<StationModel?> getStationById(String stationId) async {
+    final response = await http.get(Uri.parse('$_baseUrl/$stationId.json'));
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to load station $stationId');
+    }
+
+    final dynamic decoded = jsonDecode(response.body);
+
+    if (decoded == null) return null;
+
+    final Map<String, dynamic> data = Map<String, dynamic>.from(decoded);
+    return StationDto.fromSnapshot(stationId, data);
+  }
 }
 
 final stationRepositoryProvider = Provider<StationRepositoryFirebase>((ref) {

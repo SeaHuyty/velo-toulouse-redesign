@@ -14,7 +14,7 @@ class StationModel {
     required this.latitude,
     required this.longitude,
     required this.capacity,
-    required this.bikes,
+    required this.bikes, 
   });
 
   List<BikeModel> get dockedBikes =>

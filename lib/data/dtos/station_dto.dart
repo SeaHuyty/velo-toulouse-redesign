@@ -1,4 +1,4 @@
-import 'package:velo_toulouse_redesign/data/models/bike_model.dart';
+import 'package:velo_toulouse_redesign/data/dtos/bike_dto.dart';
 import 'package:velo_toulouse_redesign/data/models/station_model.dart';
 
 class StationDto {
@@ -11,11 +11,11 @@ class StationDto {
   static StationModel fromSnapshot(String key, dynamic value) {
     final data = Map<String, dynamic>.from(value as Map);
 
-    final rawBikes = data[jsonBikes] as Map;
-    final bikes = rawBikes.values
-        .map((b) => BikeModel.fromMap(Map<String, dynamic>.from(b as Map)))
+    final rawBikes = Map<String, dynamic>.from(data[jsonBikes] ?? {});
+    final bikes = rawBikes.entries
+        .map((e) => BikeDto.fromSnapshot(e.key, e.value))
         .toList();
-
+        
     return StationModel(
       id: key,
       name: data[name] as String,
