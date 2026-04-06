@@ -2,6 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart' as provider_pkg;
+import 'package:velo_toulouse_redesign/data/repositories/stations/station_repository.dart';
+import 'package:velo_toulouse_redesign/data/repositories/stations/station_repository_firebase.dart';
 import 'package:velo_toulouse_redesign/core/app_config.dart';
 import 'package:velo_toulouse_redesign/firebase_options.dart';
 import 'package:velo_toulouse_redesign/providers/auth_provider.dart';
@@ -11,8 +14,8 @@ import 'package:velo_toulouse_redesign/views/screens/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await dotenv.load();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   final token = AppConfig.mapboxToken;
   if (token.isEmpty) {
     throw Exception('Missing MAPBOX_ACCESS_TOKEN in .env file');
@@ -25,10 +28,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Velo Toulouse',
-      debugShowCheckedModeBanner: false,
-      home: const AuthWrapper(),
+    return provider_pkg.Provider<StationRepository>(
+      create: (_) => StationRepositoryFirebase(),
+      child: MaterialApp(
+        title: 'Velo Toulouse',
+        debugShowCheckedModeBanner: false,
+        home: const AuthWrapper(),
+      ),
     );
   }
 }
