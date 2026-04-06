@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:velo_toulouse_redesign/core/utils/app_config.dart';
 import 'package:provider/provider.dart' as provider_pkg;
 import 'package:velo_toulouse_redesign/data/repositories/stations/station_repository.dart';
 import 'package:velo_toulouse_redesign/data/repositories/stations/station_repository_firebase.dart';
