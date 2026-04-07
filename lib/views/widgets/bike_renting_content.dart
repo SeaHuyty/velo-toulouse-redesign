@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../widgets/top_bar/app_bar.dart';
-import '../../../widgets/rent_bike/station_info_widget.dart';
-import '../../../widgets/rent_bike/single_ticket_card_widget.dart';
-import '../../../widgets/buttons/button.dart';
-import '../view_model/bike_renting_view_model.dart';
-import '../../../../views/utils/async_value.dart';
+import 'top_bar/app_bar.dart';
+import 'rent_bike/station_info_widget.dart';
+import 'rent_bike/single_ticket_card_widget.dart';
+import 'buttons/button.dart';
+import '../../view_model/bike_renting_view_model.dart';
+import '../utils/async_value.dart';
 
 class BikeRentingContent extends StatelessWidget {
   const BikeRentingContent({super.key});

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:velo_toulouse_redesign/views/theme/theme.dart';
+import 'package:velo_toulouse_redesign/core/theme/theme.dart';
 
 class StationAppBar extends StatelessWidget {
   final String title;

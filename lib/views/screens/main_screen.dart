@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:velo_toulouse_redesign/core/utils/app_color.dart';
+import 'package:velo_toulouse_redesign/core/theme/theme.dart';
 import 'package:velo_toulouse_redesign/views/screens/map_screen.dart';
 import 'package:velo_toulouse_redesign/views/screens/user_profile_screen.dart';
 
@@ -30,13 +30,13 @@ class _MainScreenState extends State<MainScreen> {
         onTap: (index) => setState(() => _currentIndex = index),
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.map_outlined, color: AppColor.primaryColor,),
-            activeIcon: Icon(Icons.map, color: AppColor.primaryColor),
+            icon: Icon(Icons.map_outlined, color: AppColors.primaryColor,),
+            activeIcon: Icon(Icons.map, color: AppColors.primaryColor),
             label: 'Map',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline,color: AppColor.primaryColor),
-            activeIcon: Icon(Icons.person, color: AppColor.primaryColor),
+            icon: Icon(Icons.person_outline,color: AppColors.primaryColor),
+            activeIcon: Icon(Icons.person, color: AppColors.primaryColor),
             label: 'Profile',
           ),
         ],

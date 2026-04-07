@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:velo_toulouse_redesign/views/widgets/bike_renting_content.dart';
 import '../../../data/repositories/stations/station_repository.dart';
-import 'view_model/bike_renting_view_model.dart';
-import 'widgets/bike_renting_content.dart';
+import '../../../view_model/bike_renting_view_model.dart';
 
 class BikeRentingScreen extends StatelessWidget {
   final String stationId;

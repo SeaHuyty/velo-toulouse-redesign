@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:velo_toulouse_redesign/data/models/station_model.dart';
-import 'package:velo_toulouse_redesign/views/screens/bike_renting/bike_renting_screen.dart';
+import 'package:velo_toulouse_redesign/views/screens/bike_renting_screen.dart';
 
 class StationBottomSheet extends StatelessWidget {
   final StationModel station;
