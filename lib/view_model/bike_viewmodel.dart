@@ -1,0 +1,16 @@
+import 'dart:async';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:velo_toulouse_redesign/data/models/bike_model.dart';
+
+class BikeViewModel extends AsyncNotifier<BikeModel> {
+  @override
+  FutureOr<BikeModel> build() {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+}
+
+final bikeViewModelProvider = AsyncNotifierProvider<BikeViewModel, BikeModel>(() {
+  return BikeViewModel();
+});

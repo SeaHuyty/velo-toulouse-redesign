@@ -118,8 +118,7 @@ class StationBottomSheet extends StatelessWidget {
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(builder: (_) => BikeRentingScreen(
-                    stationId: station.id,
-                    bikePlateNumber: bike.plateNumber,
+                    stationName: station.name, stationAddress: 'Testing', bike: bike,
                   )),
                 ),
                 leading: const CircleAvatar(
