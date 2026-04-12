@@ -16,7 +16,7 @@ class StationAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: const Color(0xFFF4F6F3),
+      backgroundColor: Colors.transparent,
       elevation: 0,
       scrolledUnderElevation: 0,
       leading: Padding(
@@ -28,17 +28,14 @@ class StationAppBar extends StatelessWidget implements PreferredSizeWidget {
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.07),
+                color: Colors.black.withValues(alpha: 0.15),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),
             ],
           ),
           child: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_ios_new_rounded,
-              size: 16,
-            ),
+            icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 16),
             color: const Color(0xFF1A1A1A),
             onPressed: () => goBack(context),
           ),

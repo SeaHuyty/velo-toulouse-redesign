@@ -6,8 +6,7 @@ import 'package:velo_toulouse_redesign/data/models/bike_model.dart';
 class BikeViewModel extends AsyncNotifier<BikeModel> {
   @override
   FutureOr<BikeModel> build() {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Completer<BikeModel>().future;
   }
 }
 
