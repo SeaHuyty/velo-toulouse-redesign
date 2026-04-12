@@ -9,7 +9,8 @@ import 'package:velo_toulouse_redesign/views/widgets/top_bar/app_bar.dart';
 enum ProcessStage { initialize, paying, processing, paid }
 
 class PaymentScreen extends StatefulWidget {
-  const PaymentScreen({super.key});
+  final String plateNumber;
+  const PaymentScreen({super.key, required this.plateNumber});
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
@@ -72,7 +73,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
       ProcessStage.initialize => _buildInitialize(),
       ProcessStage.paying => _buildPayingWithOverlay(),
       ProcessStage.processing => _buildPayingWithOverlay(),
-      ProcessStage.paid => const PaymentSuccessScreen(),
+      ProcessStage.paid => PaymentSuccessScreen(
+        plateNumber: widget.plateNumber,
+      ),
     };
   }
 

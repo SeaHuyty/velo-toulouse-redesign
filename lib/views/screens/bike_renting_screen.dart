@@ -340,7 +340,7 @@ class _BikeRentingScreenState extends State<BikeRentingScreen> {
               text: "Pay now",
               onPressed: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const PaymentScreen()),
+                MaterialPageRoute(builder: (context) => PaymentScreen(plateNumber: widget.bike.plateNumber,)),
               ),
             ),
           ),
