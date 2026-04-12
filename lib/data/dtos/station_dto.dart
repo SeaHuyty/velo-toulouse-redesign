@@ -6,6 +6,7 @@ class StationDto {
   static const String latitude = 'latitude';
   static const String longitude = 'longitude';
   static const String capacity = 'capacity';
+  static const String address = 'address';
   static const String jsonBikes = 'bikes';
 
   static StationModel fromSnapshot(String key, dynamic value) {
@@ -22,6 +23,7 @@ class StationDto {
       latitude: (data[latitude] as num).toDouble(),
       longitude: (data[longitude] as num).toDouble(),
       capacity: (data[capacity] as num).toInt(),
+      address: data[address] as String,
       bikes: bikes,
     );
 }

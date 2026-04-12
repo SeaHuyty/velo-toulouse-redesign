@@ -6,6 +6,7 @@ class StationModel {
   final double latitude;
   final double longitude;
   final int capacity;
+  final String address;
   final List<BikeModel> bikes;
 
   const StationModel({
@@ -14,6 +15,7 @@ class StationModel {
     required this.latitude,
     required this.longitude,
     required this.capacity,
+    required this.address,
     required this.bikes, 
   });
 

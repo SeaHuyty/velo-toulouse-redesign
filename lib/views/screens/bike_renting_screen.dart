@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:velo_toulouse_redesign/core/theme/theme.dart';
 import 'package:velo_toulouse_redesign/data/models/bike_model.dart';
+import 'package:velo_toulouse_redesign/views/screens/payment_screen.dart';
 import 'package:velo_toulouse_redesign/views/widgets/buttons/button.dart';
 import 'package:velo_toulouse_redesign/views/widgets/top_bar/app_bar.dart';
 
@@ -335,7 +336,13 @@ class _BikeRentingScreenState extends State<BikeRentingScreen> {
                 ),
               ],
             ),
-            child: VeloButton(text: "Pay now", onPressed: () {}),
+            child: VeloButton(
+              text: "Pay now",
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const PaymentScreen()),
+              ),
+            ),
           ),
         ],
       ),
