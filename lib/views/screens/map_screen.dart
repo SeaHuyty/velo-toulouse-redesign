@@ -60,6 +60,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                 returnStationId: null,
                 selectedStationId: null,
                 onMarkerTap: _showStationInfo,
+                displayedValueBuilder: (station) => station.availableBikes,
               );
             },
             error: (e, st) {

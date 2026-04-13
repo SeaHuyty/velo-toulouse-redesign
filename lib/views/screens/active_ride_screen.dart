@@ -201,6 +201,7 @@ class _ActiveRideScreenState extends ConsumerState<ActiveRideScreen> {
                     returnStationId: _returnStation?.id,
                     selectedStationId: _selectedStation?.id,
                     onMarkerTap: _onMarkerTap,
+                    displayedValueBuilder: (station) => station.availableSpots,
                   ),
                 ],
               );

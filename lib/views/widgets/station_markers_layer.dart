@@ -8,6 +8,7 @@ class StationMarkersLayer extends StatelessWidget {
   final String? returnStationId;
   final String? selectedStationId;
   final ValueChanged<StationModel> onMarkerTap;
+  final int Function(StationModel station) displayedValueBuilder;
 
   const StationMarkersLayer({
     super.key,
@@ -15,6 +16,7 @@ class StationMarkersLayer extends StatelessWidget {
     required this.returnStationId,
     required this.selectedStationId,
     required this.onMarkerTap,
+    required this.displayedValueBuilder,
   });
 
   @override
@@ -59,7 +61,7 @@ class StationMarkersLayer extends StatelessWidget {
                     )
                   : Center(
                       child: Text(
-                        '${station.availableSpots}',
+                        '${displayedValueBuilder(station)}',
                         style: TextStyle(
                           color: isSelected
                               ? Colors.white

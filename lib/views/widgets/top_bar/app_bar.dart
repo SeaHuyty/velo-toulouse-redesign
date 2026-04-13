@@ -3,8 +3,9 @@ import 'package:velo_toulouse_redesign/core/theme/theme.dart';
 
 class StationAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
+  final VoidCallback? onBackPressed;
 
-  const StationAppBar({super.key, required this.title});
+  const StationAppBar({super.key, required this.title, this.onBackPressed});
 
   void goBack(BuildContext context) {
     Navigator.pop(context);
@@ -37,7 +38,7 @@ class StationAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 16),
             color: const Color(0xFF1A1A1A),
-            onPressed: () => goBack(context),
+            onPressed: onBackPressed ?? () => goBack(context),
           ),
         ),
       ),

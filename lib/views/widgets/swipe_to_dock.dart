@@ -25,6 +25,11 @@ class _SwipeToDockState extends State<SwipeToDock> {
   }
 
   void _onDragEnd(double maxWidth) {
+    if (maxWidth <= _thumbSize) {
+      setState(() => _dragPosition = 0);
+      return;
+    }
+
     final progress = _dragPosition / (maxWidth - _thumbSize);
     if (progress >= _threshold) {
       widget.onDocked();
@@ -38,7 +43,17 @@ class _SwipeToDockState extends State<SwipeToDock> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final maxWidth = constraints.maxWidth;
-        final progress = _dragPosition / (maxWidth - _thumbSize);
+        final progress = maxWidth <= _thumbSize
+            ? 0.0
+            : _dragPosition / (maxWidth - _thumbSize);
+
+        if (maxWidth <= _thumbSize && _dragPosition != 0) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) {
+              setState(() => _dragPosition = 0);
+            }
+          });
+        }
 
         return Container(
           height: _thumbSize,
