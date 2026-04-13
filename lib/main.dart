@@ -11,8 +11,8 @@ import 'package:velo_toulouse_redesign/views/screens/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await dotenv.load();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   final token = AppConfig.mapboxToken;
   if (token.isEmpty) {
     throw Exception('Missing MAPBOX_ACCESS_TOKEN in .env file');
