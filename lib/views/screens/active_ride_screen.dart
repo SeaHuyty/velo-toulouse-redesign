@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:velo_toulouse_redesign/core/providers/ride_session_provider.dart';
 import 'package:velo_toulouse_redesign/core/theme/theme.dart';
 import 'package:velo_toulouse_redesign/core/utils/app_config.dart';
 import 'package:velo_toulouse_redesign/data/models/station_model.dart';
@@ -14,9 +15,7 @@ import 'package:velo_toulouse_redesign/views/widgets/station_selection_card.dart
 import 'package:velo_toulouse_redesign/views/widgets/station_markers_layer.dart';
 
 class ActiveRideScreen extends ConsumerStatefulWidget {
-  final String bikeNumber;
-
-  const ActiveRideScreen({super.key, required this.bikeNumber});
+  const ActiveRideScreen({super.key});
 
   @override
   ConsumerState<ActiveRideScreen> createState() => _ActiveRideScreenState();
@@ -64,15 +63,19 @@ class _ActiveRideScreenState extends ConsumerState<ActiveRideScreen> {
   }
 
   void _onDocked() {
+    final rideSession = ref.read(rideSessionProvider);
+    if (rideSession == null || _returnStation == null) return;
+
+    ref.read(rideSessionProvider.notifier).state = rideSession.copyWith(
+      returnStationName: _returnStation!.name,
+      returnStationAddress: _returnStation!.address,
+    );
+
     _timer.cancel();
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) => RideSummaryScreen(
-          bikeNumber: widget.bikeNumber,
-          returnStation: _returnStation!,
-          secondsElapsed: _secondsElapsed,
-        ),
+        builder: (_) => RideSummaryScreen(secondsElapsed: _secondsElapsed),
       ),
     );
   }
@@ -164,6 +167,15 @@ class _ActiveRideScreenState extends ConsumerState<ActiveRideScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final rideSession = ref.watch(rideSessionProvider);
+    if (rideSession == null) {
+      return const Scaffold(
+        body: Center(
+          child: Text('No active ride session found. Please start again.'),
+        ),
+      );
+    }
+
     final stationsAsync = ref.watch(stationViewModelProvider);
     final hasReturnStation = _returnStation != null;
 
@@ -230,7 +242,7 @@ class _ActiveRideScreenState extends ConsumerState<ActiveRideScreen> {
             bottom: 0,
             child: RideBottomSheet(
               formattedTime: _formattedTime,
-              bikeNumber: widget.bikeNumber,
+              bikeNumber: rideSession.bikeNumber,
               returnStation: _returnStation,
               hasReturnStation: hasReturnStation,
               onDocked: _showDockConfirmation,

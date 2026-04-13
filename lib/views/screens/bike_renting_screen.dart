@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:velo_toulouse_redesign/core/providers/ride_session_provider.dart';
 import 'package:velo_toulouse_redesign/core/theme/theme.dart';
 import 'package:velo_toulouse_redesign/data/models/bike_model.dart';
 import 'package:velo_toulouse_redesign/views/screens/payment_screen.dart';
@@ -6,7 +8,7 @@ import 'package:velo_toulouse_redesign/views/widgets/bottom_action_container.dar
 import 'package:velo_toulouse_redesign/views/widgets/buttons/button.dart';
 import 'package:velo_toulouse_redesign/views/widgets/top_bar/app_bar.dart';
 
-class BikeRentingScreen extends StatefulWidget {
+class BikeRentingScreen extends ConsumerStatefulWidget {
   final String stationName;
   final String stationAddress;
   final BikeModel bike;
@@ -19,10 +21,10 @@ class BikeRentingScreen extends StatefulWidget {
   });
 
   @override
-  State<BikeRentingScreen> createState() => _BikeRentingScreenState();
+  ConsumerState<BikeRentingScreen> createState() => _BikeRentingScreenState();
 }
 
-class _BikeRentingScreenState extends State<BikeRentingScreen> {
+class _BikeRentingScreenState extends ConsumerState<BikeRentingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -328,13 +330,20 @@ class _BikeRentingScreenState extends State<BikeRentingScreen> {
           BottomActionContainer(
             child: VeloButton(
               text: "Pay now",
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      PaymentScreen(plateNumber: widget.bike.plateNumber),
-                ),
-              ),
+              onPressed: () {
+                ref.read(rideSessionProvider.notifier).state = RideSession(
+                  bikeNumber: widget.bike.plateNumber,
+                  fromStationName: widget.stationName,
+                  fromStationAddress: widget.stationAddress,
+                );
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const PaymentScreen(),
+                  ),
+                );
+              },
             ),
           ),
         ],

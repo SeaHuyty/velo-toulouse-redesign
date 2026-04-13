@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:velo_toulouse_redesign/core/providers/ride_session_provider.dart';
 import 'package:velo_toulouse_redesign/views/screens/payment_success_screen.dart';
 import 'package:velo_toulouse_redesign/views/widgets/payment_amount_breakdown.dart';
 import 'package:velo_toulouse_redesign/views/widgets/qr_payment_instruction_section.dart';
@@ -9,15 +11,14 @@ import 'package:velo_toulouse_redesign/views/widgets/top_bar/app_bar.dart';
 
 enum ProcessStage { initialize, paying, processing, paid }
 
-class PaymentScreen extends StatefulWidget {
-  final String plateNumber;
-  const PaymentScreen({super.key, required this.plateNumber});
+class PaymentScreen extends ConsumerStatefulWidget {
+  const PaymentScreen({super.key});
 
   @override
-  State<PaymentScreen> createState() => _PaymentScreenState();
+  ConsumerState<PaymentScreen> createState() => _PaymentScreenState();
 }
 
-class _PaymentScreenState extends State<PaymentScreen> {
+class _PaymentScreenState extends ConsumerState<PaymentScreen> {
   Timer? _stageTimer;
   ProcessStage stage = ProcessStage.initialize;
 
@@ -70,13 +71,20 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final rideSession = ref.watch(rideSessionProvider);
+    if (rideSession == null) {
+      return const Scaffold(
+        body: Center(
+          child: Text('No active ride session found. Please start again.'),
+        ),
+      );
+    }
+
     return switch (stage) {
       ProcessStage.initialize => _buildInitialize(),
       ProcessStage.paying => _buildPayingWithOverlay(),
       ProcessStage.processing => _buildPayingWithOverlay(),
-      ProcessStage.paid => PaymentSuccessScreen(
-        plateNumber: widget.plateNumber,
-      ),
+      ProcessStage.paid => const PaymentSuccessScreen(),
     };
   }
 
