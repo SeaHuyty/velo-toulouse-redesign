@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velo_toulouse_redesign/core/utils/app_config.dart';
-import 'package:provider/provider.dart' as provider_pkg;
-import 'package:velo_toulouse_redesign/data/repositories/stations/station_repository.dart';
-import 'package:velo_toulouse_redesign/data/repositories/stations/station_repository_firebase.dart';
 import 'package:velo_toulouse_redesign/core/utils/firebase_options.dart';
 import 'package:velo_toulouse_redesign/core/providers/auth_provider.dart';
 import 'package:velo_toulouse_redesign/views/screens/auth/login_screen.dart';
@@ -28,13 +25,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return provider_pkg.Provider<StationRepository>(
-      create: (_) => StationRepositoryFirebase(),
-      child: MaterialApp(
-        title: 'Velo Toulouse',
-        debugShowCheckedModeBanner: false,
-        home: const AuthWrapper(),
-      ),
+    return MaterialApp(
+      title: 'Velo Toulouse',
+      debugShowCheckedModeBanner: false,
+      home: const AuthWrapper(),
     );
   }
 }

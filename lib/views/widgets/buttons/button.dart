@@ -19,7 +19,7 @@ class VeloButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.darkGreen,
+          backgroundColor: AppColors.primaryColor,
           foregroundColor: AppColors.white,
           elevation: 0,
           shape: RoundedRectangleBorder(
