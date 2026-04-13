@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:velo_toulouse_redesign/core/theme/theme.dart';
 import 'package:velo_toulouse_redesign/core/utils/app_config.dart';
 import 'package:velo_toulouse_redesign/data/models/station_model.dart';
 import 'package:velo_toulouse_redesign/view_model/station_viewmodel.dart';
 import 'package:velo_toulouse_redesign/views/widgets/station_bottom_sheet.dart';
+import 'package:velo_toulouse_redesign/views/widgets/station_markers_layer.dart';
 
 class MapScreen extends ConsumerStatefulWidget {
   const MapScreen({super.key});
@@ -16,41 +16,6 @@ class MapScreen extends ConsumerStatefulWidget {
 }
 
 class _MapScreenState extends ConsumerState<MapScreen> {
-  List<Marker> _buildMarkers(List<StationModel> stations) {
-    return stations.map((station) {
-      return Marker(
-        point: LatLng(station.latitude, station.longitude),
-        width: 60,
-        height: 60,
-        child: GestureDetector(
-          onTap: () => _showStationInfo(station),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              const Icon(Icons.location_pin, color: AppColors.primaryColor, size: 65),
-              Positioned(
-                bottom: 19,
-                right: 11.5,
-                child: CircleAvatar(
-                  radius: 16,
-                  backgroundColor: Colors.white,
-                  child: Text(
-                    '${station.availableBikes}',
-                    style: const TextStyle(
-                      color: AppColors.primaryColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    }).toList();
-  }
-
   void _showStationInfo(StationModel station) {
     final screenHeight = MediaQuery.of(context).size.height;
 
@@ -90,7 +55,13 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           stationsAsync.when(
             data: (stations) {
               if (!mounted) return const MarkerLayer(markers: []);
-              return MarkerLayer(markers: _buildMarkers(stations));
+              return StationMarkersLayer(
+                stations: stations,
+                returnStationId: null,
+                selectedStationId: null,
+                onMarkerTap: _showStationInfo,
+                displayedValueBuilder: (station) => station.availableBikes,
+              );
             },
             error: (e, st) {
               return const MarkerLayer(markers: []);

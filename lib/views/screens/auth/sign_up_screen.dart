@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velo_toulouse_redesign/data/models/user_model.dart';
-import 'package:velo_toulouse_redesign/view_model/user_view_model.dart';
+import 'package:velo_toulouse_redesign/view_model/user_viewmodel.dart';
 import 'package:velo_toulouse_redesign/views/screens/auth/login_screen.dart';
 import 'package:velo_toulouse_redesign/views/screens/main_screen.dart';
 

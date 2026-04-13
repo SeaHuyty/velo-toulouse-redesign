@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velo_toulouse_redesign/data/models/user_model.dart';
-import 'package:velo_toulouse_redesign/view_model/user_view_model.dart';
+import 'package:velo_toulouse_redesign/view_model/user_viewmodel.dart';
 
 class EditProfileScreen extends ConsumerStatefulWidget {
   const EditProfileScreen({super.key, required this.user});

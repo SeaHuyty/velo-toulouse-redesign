@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:velo_toulouse_redesign/core/providers/ride_session_provider.dart';
 import 'package:velo_toulouse_redesign/core/theme/theme.dart';
-import 'package:velo_toulouse_redesign/data/models/station_model.dart';
+import 'package:velo_toulouse_redesign/views/widgets/bottom_action_container.dart';
 import 'package:velo_toulouse_redesign/views/widgets/buttons/button.dart';
+import 'package:velo_toulouse_redesign/views/widgets/success_header.dart';
 
-class RideSummaryScreen extends StatelessWidget {
-  final String bikeNumber;
-  final StationModel returnStation;
+class RideSummaryScreen extends ConsumerWidget {
   final int secondsElapsed;
 
-  const RideSummaryScreen({
-    super.key,
-    required this.bikeNumber,
-    required this.returnStation,
-    required this.secondsElapsed,
-  });
+  const RideSummaryScreen({super.key, required this.secondsElapsed});
 
   String get _formattedDuration {
     final minutes = secondsElapsed ~/ 60;
@@ -23,7 +19,16 @@ class RideSummaryScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final rideSession = ref.watch(rideSessionProvider);
+    if (rideSession == null) {
+      return const Scaffold(
+        body: Center(
+          child: Text('No ride summary available. Please start again.'),
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: const Color(0xFFF4F6F3),
       body: Column(
@@ -33,37 +38,13 @@ class RideSummaryScreen extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(20, 60, 20, 20),
               child: Column(
                 children: [
-                  // ── Success icon ──────────────────────────────────
-                  Container(
-                    width: 80,
-                    height: 80,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFF006D33),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.check_rounded,
-                      color: Colors.white,
-                      size: 44,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  Text(
-                    'Bike Returned!',
-                    style: AppTextStyles.heading.copyWith(
-                      fontSize: 26,
-                      fontWeight: FontWeight.w700,
-                      color: const Color(0xFF1A1A1A),
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    'Thanks for riding with Vélo Toulouse',
-                    style: AppTextStyles.label.copyWith(
-                      color: Colors.grey[500],
-                      fontSize: 14,
-                    ),
+                  const SuccessHeader(
+                    title: 'Bike Returned!',
+                    subtitle: 'Thanks for riding with Vélo Toulouse',
+                    circleColor: Color(0xFF006D33),
+                    iconColor: Colors.white,
+                    circleSize: 80,
+                    iconSize: 44,
                   ),
 
                   const SizedBox(height: 36),
@@ -96,14 +77,21 @@ class RideSummaryScreen extends StatelessWidget {
                         _SummaryRow(
                           icon: Icons.directions_bike_rounded,
                           label: 'Bike',
-                          value: bikeNumber,
+                          value: rideSession.bikeNumber,
+                        ),
+                        const SizedBox(height: 14),
+                        _SummaryRow(
+                          icon: Icons.local_parking_rounded,
+                          label: 'From',
+                          value: rideSession.fromStationName,
+                          subValue: rideSession.fromStationAddress,
                         ),
                         const SizedBox(height: 14),
                         _SummaryRow(
                           icon: Icons.local_parking_rounded,
                           label: 'Returned to',
-                          value: returnStation.name,
-                          subValue: returnStation.address,
+                          value: rideSession.returnStationName ?? '-',
+                          subValue: rideSession.returnStationAddress,
                         ),
                         const SizedBox(height: 14),
                         _SummaryRow(
@@ -146,21 +134,11 @@ class RideSummaryScreen extends StatelessWidget {
           ),
 
           // ── Bottom CTA ────────────────────────────────────────────
-          Container(
-            padding: const EdgeInsets.fromLTRB(20, 12, 20, 28),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.06),
-                  blurRadius: 16,
-                  offset: const Offset(0, -4),
-                ),
-              ],
-            ),
+          BottomActionContainer(
             child: VeloButton(
               text: 'Back to Map',
               onPressed: () {
+                ref.read(rideSessionProvider.notifier).state = null;
                 // Pop all the way back to the map screen
                 Navigator.of(context).popUntil((route) => route.isFirst);
               },
