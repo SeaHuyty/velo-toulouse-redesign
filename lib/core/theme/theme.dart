@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static Color myGreen = Color(0xFF2E7D32);     
-  static Color darkGreen = Color(0xFF1B5E20);   
-  static Color lightGrey = Color(0xFFF5F5F5);   
-  static Color black = Color(0xFF212121);    
-  static Color white = Color(0xFFFFFFFF);   
+  static const Color primaryColor= Color(0xFF2E7D32);
+  static const Color darkGreen = Color(0xFF1B5E20);
+  static const Color lightGrey = Color(0xFFF5F5F5);
+  static const Color black = Color(0xFF212121);    
+  static const Color white = Color(0xFFFFFFFF);
 }
 
 class AppTextStyles {

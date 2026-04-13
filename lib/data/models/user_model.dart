@@ -32,25 +32,4 @@ class UserModel {
       imageUrl: imageUrl ?? this.imageUrl,
     );
   }
-
-  factory UserModel.fromMap(String id, Map<String, dynamic> data) {
-    return UserModel(
-      id: id,
-      name: data['name'] as String,
-      gender: data['gender'] as String,
-      phoneNumber: data['phone_number'] as String,
-      email: data['email'] as String,
-      imageUrl: data['image_url'] as String? ?? '',
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'gender': gender,
-      'email': email,
-      'phone_number': phoneNumber,
-      'image_url': imageUrl,
-    };
-  }
 }

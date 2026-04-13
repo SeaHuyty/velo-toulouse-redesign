@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/theme.dart';
+import '../../../core/theme/theme.dart';
 
 class VeloDivider extends StatelessWidget {
   const VeloDivider({super.key});

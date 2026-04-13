@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:velo_toulouse_redesign/views/theme/theme.dart';
+import 'package:velo_toulouse_redesign/core/theme/theme.dart';
 
 class VeloButton extends StatelessWidget {
   final String text;
@@ -14,19 +14,25 @@ class VeloButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.infinity,
-      height: 50,
+      width: 500,
+      height: 60,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.darkGreen,
+          backgroundColor: AppColors.primaryColor,
           foregroundColor: AppColors.white,
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
         ),
-        child: Text(text),
+        child: Text(text, 
+          style: AppTextStyles.heading.copyWith(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: AppColors.white,
+          ),
+        ),
       ),
     );
   }
