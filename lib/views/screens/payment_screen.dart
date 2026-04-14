@@ -1,22 +1,24 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:velo_toulouse_redesign/core/providers/ride_session_provider.dart';
 import 'package:velo_toulouse_redesign/views/screens/payment_success_screen.dart';
+import 'package:velo_toulouse_redesign/views/widgets/payment_amount_breakdown.dart';
+import 'package:velo_toulouse_redesign/views/widgets/qr_payment_instruction_section.dart';
 import 'package:velo_toulouse_redesign/views/widgets/top_bar/app_bar.dart';
 
 enum ProcessStage { initialize, paying, processing, paid }
 
-class PaymentScreen extends StatefulWidget {
-  final String plateNumber;
-  const PaymentScreen({super.key, required this.plateNumber});
+class PaymentScreen extends ConsumerStatefulWidget {
+  const PaymentScreen({super.key});
 
   @override
-  State<PaymentScreen> createState() => _PaymentScreenState();
+  ConsumerState<PaymentScreen> createState() => _PaymentScreenState();
 }
 
-class _PaymentScreenState extends State<PaymentScreen> {
+class _PaymentScreenState extends ConsumerState<PaymentScreen> {
   Timer? _stageTimer;
   ProcessStage stage = ProcessStage.initialize;
 
@@ -69,13 +71,20 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final rideSession = ref.watch(rideSessionProvider);
+    if (rideSession == null) {
+      return const Scaffold(
+        body: Center(
+          child: Text('No active ride session found. Please start again.'),
+        ),
+      );
+    }
+
     return switch (stage) {
       ProcessStage.initialize => _buildInitialize(),
       ProcessStage.paying => _buildPayingWithOverlay(),
       ProcessStage.processing => _buildPayingWithOverlay(),
-      ProcessStage.paid => PaymentSuccessScreen(
-        plateNumber: widget.plateNumber,
-      ),
+      ProcessStage.paid => const PaymentSuccessScreen(),
     };
   }
 
@@ -137,46 +146,20 @@ class _PaymentScreenState extends State<PaymentScreen> {
   Widget _buildPaying() {
     return Scaffold(
       appBar: StationAppBar(title: 'Please wait'),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12),
-        child: Column(
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 18),
           children: [
             const SizedBox(height: 70),
-            Image.asset('assets/images/mock_qr.JPG', width: 230),
-            const SizedBox(height: 15),
-            const Text('Scan to Pay'),
-            const SizedBox(height: 3),
-            const Text('or', style: TextStyle(color: Colors.blueGrey)),
-            const SizedBox(height: 3),
-            const Text('Download QR', style: TextStyle(color: Colors.blue)),
-            const SizedBox(height: 3),
-            SizedBox(
-              width: 230,
-              child: const Text(
-                'and upload to Mobile Banking app supporting KHQR',
-                style: TextStyle(color: Colors.blueGrey, fontSize: 13),
-                textAlign: TextAlign.center,
-              ),
+            const QrPaymentInstructionSection(
+              imageAssetPath: 'assets/images/mock_qr.JPG',
             ),
             const SizedBox(height: 55),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text('Subtotal:'), Text('2.00 USD')],
-            ),
-            const SizedBox(height: 15),
-            const DottedLine(
-              dashLength: 6,
-              dashGapLength: 4,
-              lineThickness: 1,
-              dashColor: Colors.grey,
-            ),
-            const SizedBox(height: 15),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Total:', style: TextStyle(fontWeight: FontWeight.bold)),
-                Text('2.00 USD', style: TextStyle(fontWeight: FontWeight.bold)),
-              ],
+            const PaymentAmountBreakdown(
+              subtotalLabel: 'Subtotal:',
+              subtotalAmount: '2.00 USD',
+              totalLabel: 'Total:',
+              totalAmount: '2.00 USD',
             ),
           ],
         ),

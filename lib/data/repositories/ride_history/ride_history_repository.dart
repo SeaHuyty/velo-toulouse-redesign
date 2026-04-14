@@ -1,0 +1,7 @@
+import 'package:velo_toulouse_redesign/data/models/ride_history_model.dart';
+
+abstract class RideHistoryRepository {
+  Future<String> createRideHistory(RideHistoryModel history);
+  Future<void> updateRideHistory(String id, Map<String, dynamic> updates);
+  Future<List<RideHistoryModel>> getHistoryForUser(String userId);
+}
