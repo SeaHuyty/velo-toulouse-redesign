@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:velo_toulouse_redesign/core/theme/theme.dart';
 import 'package:velo_toulouse_redesign/views/screens/map_screen.dart';
 import 'package:velo_toulouse_redesign/views/screens/user_profile_screen.dart';
+import 'package:velo_toulouse_redesign/views/screens/select_pass_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -13,7 +14,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
 
-  static const _screens = [MapScreen(), UserProfileScreen()];
+  static const _screens = [MapScreen(),SelectPassScreen(), UserProfileScreen()];
 
   @override
   Widget build(BuildContext context) {
@@ -53,10 +54,18 @@ class _MainScreenState extends State<MainScreen> {
           ),
           const SizedBox(width: 8),
           _buildNavItem(
+            icon: Icons.confirmation_number_outlined,
+            activeIcon: Icons.confirmation_number,
+            label: 'Passes',
+            index: 1,
+          ),
+
+          const SizedBox(width: 8),
+          _buildNavItem(
             icon: Icons.person_outline,
             activeIcon: Icons.person,
             label: 'Profile',
-            index: 1,
+            index: 2,
           ),
         ],
       ),

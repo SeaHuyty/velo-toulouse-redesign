@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velo_toulouse_redesign/core/providers/ride_session_provider.dart';
 import 'package:velo_toulouse_redesign/views/screens/active_ride_screen.dart';
-import 'package:velo_toulouse_redesign/views/widgets/buttons/button.dart';
+import 'package:velo_toulouse_redesign/views/widgets/actions/button.dart';
 import 'package:velo_toulouse_redesign/views/widgets/success_header.dart';
 
 class PaymentSuccessScreen extends ConsumerWidget {
