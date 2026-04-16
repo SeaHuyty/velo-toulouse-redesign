@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:velo_toulouse_redesign/core/providers/pass_booking_provider.dart';
 import 'package:velo_toulouse_redesign/core/providers/ride_session_provider.dart';
 import 'package:velo_toulouse_redesign/views/screens/payment_success_screen.dart';
 import 'package:velo_toulouse_redesign/views/widgets/payment_amount_breakdown.dart';
@@ -72,7 +73,9 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
   @override
   Widget build(BuildContext context) {
     final rideSession = ref.watch(rideSessionProvider);
-    if (rideSession == null) {
+    final selectedPass = ref.watch(selectedPassProvider);
+
+    if (rideSession == null && selectedPass == null) {
       return const Scaffold(
         body: Center(
           child: Text('No active ride session found. Please start again.'),
@@ -144,6 +147,12 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
   }
 
   Widget _buildPaying() {
+    final selectedPass = ref.watch(selectedPassProvider);
+
+    final String amountLabel = selectedPass != null
+        ? '${selectedPass.price.toStringAsFixed(2)} USD'
+        : '2.00 USD';
+
     return Scaffold(
       appBar: StationAppBar(title: 'Please wait'),
       body: SafeArea(
@@ -155,11 +164,11 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
               imageAssetPath: 'assets/images/mock_qr.JPG',
             ),
             const SizedBox(height: 55),
-            const PaymentAmountBreakdown(
+            PaymentAmountBreakdown(
               subtotalLabel: 'Subtotal:',
-              subtotalAmount: '2.00 USD',
+              subtotalAmount: amountLabel,
               totalLabel: 'Total:',
-              totalAmount: '2.00 USD',
+              totalAmount: amountLabel,
             ),
           ],
         ),
