@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:velo_toulouse_redesign/core/theme/theme.dart';
+import 'package:velo_toulouse_redesign/data/models/pass.dart';
 
 class PassCardWidget extends StatelessWidget {
-  final String title;
+  final PassModel pass;
   final String description;
-  final double price;
   final VoidCallback onTap;
   final bool isSelected;
   final IconData icon;
 
   const PassCardWidget({
     super.key,
-    required this.title,
+    required this.pass,
     required this.description,
-    required this.price,
     required this.onTap,
     this.isSelected = false,
     required this.icon,
@@ -54,7 +53,7 @@ class PassCardWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    title,
+                    pass.title,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: AppTextStyles.body.copyWith(
@@ -87,7 +86,7 @@ class PassCardWidget extends StatelessWidget {
                   ),
                 if (isSelected) const SizedBox(height: 18),
                 Text(
-                  '€ ${price.toStringAsFixed(2)}',
+                  '€ ${pass.price.toStringAsFixed(2)}',
                   style: AppTextStyles.body.copyWith(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
