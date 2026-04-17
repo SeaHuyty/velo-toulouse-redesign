@@ -1,30 +1,32 @@
-import 'package:flutter_riverpod/legacy.dart';
-
-class RideSession {
-  final String? sessionId;
-  final String? userId;
+class RideHistoryModel {
+  final String id;
+  final String userId;
   final String bikeNumber;
   final String fromStationName;
   final String fromStationAddress;
   final String? returnStationName;
   final String? returnStationAddress;
-  final int? startedAtMs;
-  final double? amountPaid;
+  final int startedAtMs;
+  final int? endedAtMs;
+  final int? durationSeconds;
+  final double amountPaid;
 
-  const RideSession({
-    this.sessionId,
-    this.userId,
+  const RideHistoryModel({
+    required this.id,
+    required this.userId,
     required this.bikeNumber,
     required this.fromStationName,
     required this.fromStationAddress,
     this.returnStationName,
     this.returnStationAddress,
-    this.startedAtMs,
-    this.amountPaid,
+    required this.startedAtMs,
+    this.endedAtMs,
+    this.durationSeconds,
+    required this.amountPaid,
   });
 
-  RideSession copyWith({
-    String? sessionId,
+  RideHistoryModel copyWith({
+    String? id,
     String? userId,
     String? bikeNumber,
     String? fromStationName,
@@ -32,10 +34,12 @@ class RideSession {
     String? returnStationName,
     String? returnStationAddress,
     int? startedAtMs,
+    int? endedAtMs,
+    int? durationSeconds,
     double? amountPaid,
   }) {
-    return RideSession(
-      sessionId: sessionId ?? this.sessionId,
+    return RideHistoryModel(
+      id: id ?? this.id,
       userId: userId ?? this.userId,
       bikeNumber: bikeNumber ?? this.bikeNumber,
       fromStationName: fromStationName ?? this.fromStationName,
@@ -43,9 +47,9 @@ class RideSession {
       returnStationName: returnStationName ?? this.returnStationName,
       returnStationAddress: returnStationAddress ?? this.returnStationAddress,
       startedAtMs: startedAtMs ?? this.startedAtMs,
+      endedAtMs: endedAtMs ?? this.endedAtMs,
+      durationSeconds: durationSeconds ?? this.durationSeconds,
       amountPaid: amountPaid ?? this.amountPaid,
     );
   }
 }
-
-final rideSessionProvider = StateProvider<RideSession?>((ref) => null);
