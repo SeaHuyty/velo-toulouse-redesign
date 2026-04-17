@@ -5,8 +5,8 @@ import 'package:velo_toulouse_redesign/core/theme/theme.dart';
 import 'package:velo_toulouse_redesign/data/models/bike_model.dart';
 import 'package:velo_toulouse_redesign/views/screens/payment_screen.dart';
 import 'package:velo_toulouse_redesign/views/widgets/bottom_action_container.dart';
-import 'package:velo_toulouse_redesign/views/widgets/buttons/button.dart';
-import 'package:velo_toulouse_redesign/views/widgets/top_bar/app_bar.dart';
+import 'package:velo_toulouse_redesign/views/widgets/actions/button.dart';
+import 'package:velo_toulouse_redesign/views/widgets/display/top_bar/app_bar.dart';
 
 class BikeRentingScreen extends ConsumerStatefulWidget {
   final String stationName;

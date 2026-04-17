@@ -52,6 +52,21 @@ class UserViewModel extends AsyncNotifier<UserModel?> {
     });
   }
 
+  Future<void> removeActivePass() async {
+    final user = state.value;
+    if (user == null) return;
+
+    final updatedUser = user.copyWith(
+      clearActivePass: true,
+    );
+
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      await ref.read(userRepositoryProvider).updateUserProfile(updatedUser);
+      return updatedUser;
+    });
+  }
+
   Future<void> resetPassword(String email) async {
     await ref.read(userRepositoryProvider).resetPassword(email);
   }

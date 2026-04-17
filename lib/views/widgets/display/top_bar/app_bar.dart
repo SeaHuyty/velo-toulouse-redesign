@@ -5,7 +5,11 @@ class StationAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final VoidCallback? onBackPressed;
 
-  const StationAppBar({super.key, required this.title, this.onBackPressed});
+  const StationAppBar({
+    super.key, 
+    required this.title, 
+    this.onBackPressed
+    });
 
   void goBack(BuildContext context) {
     Navigator.pop(context);
@@ -45,7 +49,7 @@ class StationAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Text(
         title,
         style: AppTextStyles.heading.copyWith(
-          fontSize: 17,
+          fontSize: 20,
           fontWeight: FontWeight.w600,
           color: const Color(0xFF1A1A1A),
           letterSpacing: -0.3,
