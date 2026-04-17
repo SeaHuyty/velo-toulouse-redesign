@@ -45,31 +45,4 @@ class UserModel {
       activePassExpiry: clearActivePass ? null : (activePassExpiry ?? this.activePassExpiry),
     );
   }
-
-  factory UserModel.fromMap(String id, Map<String, dynamic> data) {
-    return UserModel(
-      id: id,
-      name: data['name'] as String,
-      gender: data['gender'] as String,
-      phoneNumber: data['phone_number'] as String,
-      email: data['email'] as String,
-      imageUrl: data['image_url'] as String? ?? '',
-      activePassId: data['active_pass_id'] as String?,
-      activePassTitle: data['active_pass_title'] as String?,
-      activePassExpiry: data['active_pass_expiry'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'gender': gender,
-      'email': email,
-      'phone_number': phoneNumber,
-      'image_url': imageUrl,
-      'active_pass_id': activePassId,
-      'active_pass_title': activePassTitle,
-      'active_pass_expiry': activePassExpiry,
-    };
-  }
 }

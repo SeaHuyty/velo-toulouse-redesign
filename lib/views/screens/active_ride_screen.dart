@@ -8,6 +8,7 @@ import 'package:velo_toulouse_redesign/core/theme/theme.dart';
 import 'package:velo_toulouse_redesign/core/utils/app_config.dart';
 import 'package:velo_toulouse_redesign/data/models/station_model.dart';
 import 'package:velo_toulouse_redesign/view_model/station_viewmodel.dart';
+import 'package:velo_toulouse_redesign/view_model/ride_history_viewmodel.dart';
 import 'package:velo_toulouse_redesign/views/screens/ride_summary_screen.dart';
 import 'package:velo_toulouse_redesign/views/widgets/legend_pill.dart';
 import 'package:velo_toulouse_redesign/views/widgets/ride_bottom_sheet.dart';
@@ -62,14 +63,27 @@ class _ActiveRideScreenState extends ConsumerState<ActiveRideScreen> {
     });
   }
 
-  void _onDocked() {
+  Future<void> _onDocked() async {
     final rideSession = ref.read(rideSessionProvider);
     if (rideSession == null || _returnStation == null) return;
+
+    if (rideSession.sessionId != null) {
+      await ref
+          .read(rideHistoryViewModelProvider.notifier)
+          .completeRide(
+            sessionId: rideSession.sessionId!,
+            returnStationName: _returnStation!.name,
+            returnStationAddress: _returnStation!.address,
+            durationSeconds: _secondsElapsed,
+          );
+    }
 
     ref.read(rideSessionProvider.notifier).state = rideSession.copyWith(
       returnStationName: _returnStation!.name,
       returnStationAddress: _returnStation!.address,
     );
+
+    if (!mounted) return;
 
     _timer.cancel();
     Navigator.pushReplacement(

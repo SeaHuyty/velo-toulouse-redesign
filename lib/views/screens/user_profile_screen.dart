@@ -6,6 +6,7 @@ import 'package:velo_toulouse_redesign/data/models/user_model.dart';
 import 'package:velo_toulouse_redesign/view_model/user_viewmodel.dart';
 import 'package:velo_toulouse_redesign/views/screens/auth/login_screen.dart';
 import 'package:velo_toulouse_redesign/views/screens/edit_profile_screen.dart';
+import 'package:velo_toulouse_redesign/views/screens/ride_history_screen.dart';
 import 'package:velo_toulouse_redesign/views/widgets/user_menu.dart';
 
 class UserProfileScreen extends ConsumerWidget {
@@ -82,6 +83,14 @@ class UserProfileScreen extends ConsumerWidget {
                 ],
                 const SizedBox(height: 24),
                 UserMenu(
+                  onHistory: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const RideHistoryScreen(),
+                      ),
+                    );
+                  },
                   onLogout: () async {
                     await ref.read(userViewModelProvider.notifier).signOut();
                     if (!context.mounted) return;
