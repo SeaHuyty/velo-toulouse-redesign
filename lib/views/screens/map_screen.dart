@@ -85,7 +85,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
             options: MapOptions(
               initialCenter: LatLng(13.3590756, 103.8709673),
               initialZoom: 13.5,
-              onTap: (_, __) => _showActivePassAlert(), 
+              onTap: (_, __) => _showActivePassAlert(),
             ),
             children: [
               TileLayer(urlTemplate: AppConfig.mapboxTileUrl),
@@ -98,7 +98,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                     selectedStationId: null,
                     onMarkerTap: (station) {
                       _showStationInfo(station);
-                      _showActivePassAlert(); 
+                      _showActivePassAlert();
                     },
                     displayedValueBuilder: (station) => station.availableBikes,
                   );
