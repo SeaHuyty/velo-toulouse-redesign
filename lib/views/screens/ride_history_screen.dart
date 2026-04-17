@@ -14,7 +14,19 @@ class RideHistoryScreen extends ConsumerWidget {
       appBar: AppBar(title: const Text('Ride History')),
       body: historyAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, _) => const Center(child: Text('Failed to load history')),
+        error: (error, _) => Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Failed to load history: $error'),
+              const SizedBox(height: 12),
+              TextButton(
+                onPressed: () => ref.refresh(rideHistoryViewModelProvider),
+                child: const Text('Retry'),
+              ),
+            ],
+          ),
+        ),
         data: (history) {
           if (history.isEmpty) {
             return const Center(child: Text('No rides yet'));

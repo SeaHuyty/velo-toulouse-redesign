@@ -34,7 +34,7 @@ class RideHistoryFirebaseRepository implements RideHistoryRepository {
   @override
   Future<List<RideHistoryModel>> getHistoryForUser(String userId) async {
     final snapshot = await _historyRef
-        .orderByChild('user_id')
+        .orderByChild(RideHistoryDto.userIdKey)
         .equalTo(userId)
         .get();
 

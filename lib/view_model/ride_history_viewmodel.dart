@@ -7,7 +7,7 @@ import 'package:velo_toulouse_redesign/data/repositories/ride_history/ride_histo
 class RideHistoryViewModel extends AsyncNotifier<List<RideHistoryModel>> {
   @override
   Future<List<RideHistoryModel>> build() async {
-    final authUser = ref.watch(authStateProvider).asData?.value;
+    final authUser = await ref.watch(authStateProvider.future);
     if (authUser == null) return <RideHistoryModel>[];
 
     return ref
