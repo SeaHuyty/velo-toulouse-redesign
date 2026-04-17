@@ -27,7 +27,6 @@ class SelectPassScreen extends ConsumerWidget {
     final selectedPass = ref.watch(selectedPassProvider);
     final userAsync = ref.watch(userViewModelProvider);
     
-    // Check if user has an active pass in their profile
     final user = userAsync.value;
     bool hasActivePass = false;
     
