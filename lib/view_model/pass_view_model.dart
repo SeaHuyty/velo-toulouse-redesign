@@ -1,4 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:velo_toulouse_redesign/view_model/user_viewmodel.dart';
 import '../../data/models/pass.dart';
 import '../../data/repositories/passes/pass_repository_firebase.dart';
 import '../core/providers/pass_booking_provider.dart';
@@ -16,6 +18,35 @@ class PassViewModel extends AsyncNotifier<List<PassModel>> {
 
   void selectPass(PassModel pass) {
     ref.read(selectedPassProvider.notifier).state = pass;
+  }
+
+  bool hasActivePass() {
+    final user = ref.read(userViewModelProvider).value;
+    if (user != null && user.activePassExpiry != null) {
+      try {
+        final expiryStr = user.activePassExpiry!.replaceFirst('Le. ', '');
+        final parts = expiryStr.split(' / ');
+        if (parts.length == 3) {
+          final day = int.parse(parts[0]);
+          final monthStr = parts[1];
+          final year = int.parse(parts[2]);
+
+          final months = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+          ];
+          final month = months.indexOf(monthStr) + 1;
+
+          final expiryDate = DateTime(year, month, day);
+          if (expiryDate.isAfter(DateTime.now())) {
+            return true;
+          }
+        }
+      } catch (e) {
+        return false;
+      }
+    }
+    return false;
   }
 
   String getExpiryDate() {
@@ -54,6 +85,21 @@ class PassViewModel extends AsyncNotifier<List<PassModel>> {
       'December'
     ];
 
-    return 'Le: ${expiry.day} / ${months[expiry.month - 1]} / ${expiry.year}';
+    return 'Le. ${expiry.day} / ${months[expiry.month - 1]} / ${expiry.year}';
+  }
+
+  Future<void> purchasePass(PassModel pass) async {
+    final expiryDate = getExpiryDate();
+    ref.read(selectedPassProvider.notifier).state = pass;
+
+    final user = ref.read(userViewModelProvider).value;
+    if (user != null) {
+      final updatedUser = user.copyWith(
+        activePassId: pass.id,
+        activePassTitle: pass.title,
+        activePassExpiry: expiryDate,
+      );
+      await ref.read(userViewModelProvider.notifier).updateUserProfile(updatedUser);
+    }
   }
 }
