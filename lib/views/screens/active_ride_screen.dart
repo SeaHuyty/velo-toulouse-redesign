@@ -63,12 +63,12 @@ class _ActiveRideScreenState extends ConsumerState<ActiveRideScreen> {
     });
   }
 
-  void _onDocked() {
+  Future<void> _onDocked() async {
     final rideSession = ref.read(rideSessionProvider);
     if (rideSession == null || _returnStation == null) return;
 
     if (rideSession.sessionId != null) {
-      ref
+      await ref
           .read(rideHistoryViewModelProvider.notifier)
           .completeRide(
             sessionId: rideSession.sessionId!,
@@ -82,6 +82,8 @@ class _ActiveRideScreenState extends ConsumerState<ActiveRideScreen> {
       returnStationName: _returnStation!.name,
       returnStationAddress: _returnStation!.address,
     );
+
+    if (!mounted) return;
 
     _timer.cancel();
     Navigator.pushReplacement(
