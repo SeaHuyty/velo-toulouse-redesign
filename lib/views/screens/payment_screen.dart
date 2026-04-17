@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velo_toulouse_redesign/core/providers/pass_booking_provider.dart';
 import 'package:velo_toulouse_redesign/core/providers/ride_session_provider.dart';
+import 'package:velo_toulouse_redesign/view_model/pass_view_model.dart';
 import 'package:velo_toulouse_redesign/views/screens/payment_success_screen.dart';
 import 'package:velo_toulouse_redesign/views/widgets/payment_amount_breakdown.dart';
 import 'package:velo_toulouse_redesign/views/widgets/qr_payment_instruction_section.dart';
@@ -58,6 +59,13 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
     if (next == null) return;
 
     setState(() => stage = next);
+
+    if (next == ProcessStage.paid) {
+      final selectedPass = ref.read(selectedPassProvider);
+      if (selectedPass != null) {
+        ref.read(passViewModelProvider.notifier).purchasePass(selectedPass);
+      }
+    }
 
     if (next != ProcessStage.paid) {
       _startStageTimer();

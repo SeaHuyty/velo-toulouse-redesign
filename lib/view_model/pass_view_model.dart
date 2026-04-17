@@ -20,34 +20,20 @@ class PassViewModel extends AsyncNotifier<List<PassModel>> {
     ref.read(selectedPassProvider.notifier).state = pass;
   }
 
-  bool hasActivePass() {
+    bool hasActivePass() {
     final user = ref.read(userViewModelProvider).value;
-    if (user != null && user.activePassExpiry != null) {
+      if (user?.activePassExpiry == null) return false;
+
       try {
-        final expiryStr = user.activePassExpiry!.replaceFirst('Le. ', '');
-        final parts = expiryStr.split(' / ');
-        if (parts.length == 3) {
-          final day = int.parse(parts[0]);
-          final monthStr = parts[1];
-          final year = int.parse(parts[2]);
+        final cleanDate = user!.activePassExpiry!.replaceFirst('Le. ', '');
+        
+        final expiryDate = DateFormat('d / MMMM / y').parse(cleanDate);
 
-          final months = [
-            'January', 'February', 'March', 'April', 'May', 'June',
-            'July', 'August', 'September', 'October', 'November', 'December'
-          ];
-          final month = months.indexOf(monthStr) + 1;
-
-          final expiryDate = DateTime(year, month, day);
-          if (expiryDate.isAfter(DateTime.now())) {
-            return true;
-          }
-        }
+        return expiryDate.isAfter(DateTime.now());
       } catch (e) {
-        return false;
+        return false; 
       }
     }
-    return false;
-  }
 
   String getExpiryDate() {
     final selectedPass = ref.read(selectedPassProvider);

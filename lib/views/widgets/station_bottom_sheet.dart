@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:velo_toulouse_redesign/core/theme/theme.dart';
 import 'package:velo_toulouse_redesign/data/models/station_model.dart';
-import 'package:velo_toulouse_redesign/views/screens/bike_renting_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:velo_toulouse_redesign/view_model/pass_view_model.dart';
+import 'package:velo_toulouse_redesign/views/screens/bike_PassBooking_screen.dart' as pass_flow;
+import 'package:velo_toulouse_redesign/views/screens/bike_renting_screen.dart' as pay_flow;
 
-class StationBottomSheet extends StatelessWidget {
+class StationBottomSheet extends ConsumerWidget {
   final StationModel station;
   const StationBottomSheet({super.key, required this.station});
 
@@ -27,7 +30,7 @@ class StationBottomSheet extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       decoration: const BoxDecoration(
         color: Color(0xFFF4F6F3),
@@ -191,16 +194,32 @@ class StationBottomSheet extends StatelessWidget {
               itemBuilder: (_, i) {
                 final bike = station.dockedBikes[i];
                 return GestureDetector(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => BikeRentingScreen(
-                        stationName: station.name,
-                        stationAddress: station.address,
-                        bike: bike,
-                      ),
-                    ),
-                  ),
+                  onTap: () {
+                    final hasPass = ref.read(passViewModelProvider.notifier).hasActivePass();
+                    if (hasPass) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => pass_flow.BikeRentingScreen(
+                            stationName: station.name,
+                            stationAddress: station.address,
+                            bike: bike,
+                          ),
+                        ),
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => pay_flow.BikeRentingScreen(
+                            stationName: station.name,
+                            stationAddress: station.address,
+                            bike: bike,
+                          ),
+                        ),
+                      );
+                    }
+                  },
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,

@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:velo_toulouse_redesign/core/providers/pass_booking_provider.dart';
+import 'package:velo_toulouse_redesign/core/theme/theme.dart';
 import 'package:velo_toulouse_redesign/core/utils/app_config.dart';
 import 'package:velo_toulouse_redesign/data/models/station_model.dart';
+import 'package:velo_toulouse_redesign/view_model/pass_view_model.dart';
 import 'package:velo_toulouse_redesign/view_model/station_viewmodel.dart';
+import 'package:velo_toulouse_redesign/view_model/user_viewmodel.dart';
 import 'package:velo_toulouse_redesign/views/widgets/station_bottom_sheet.dart';
 import 'package:velo_toulouse_redesign/views/widgets/station_markers_layer.dart';
 
@@ -16,6 +20,36 @@ class MapScreen extends ConsumerStatefulWidget {
 }
 
 class _MapScreenState extends ConsumerState<MapScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showActivePassAlert();
+    });
+  }
+
+  void _showActivePassAlert() {
+    final viewModel = ref.read(passViewModelProvider.notifier);
+    final user = ref.read(userViewModelProvider).value;
+
+    if (viewModel.hasActivePass()) {
+      final passTitle =
+          ref.read(selectedPassProvider)?.title ?? user?.activePassTitle;
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Your $passTitle is active.'),
+          backgroundColor: AppColors.primaryColor,
+          duration: const Duration(seconds: 5),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      );
+    }
+  }
+
   void _showStationInfo(StationModel station) {
     final screenHeight = MediaQuery.of(context).size.height;
 
@@ -45,28 +79,34 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     final stationsAsync = ref.watch(stationViewModelProvider);
 
     return Scaffold(
-      body: FlutterMap(
-        options: MapOptions(
-          initialCenter: LatLng(13.3590756, 103.8709673),
-          initialZoom: 13.5,
-        ),
+      body: Stack(
         children: [
-          TileLayer(urlTemplate: AppConfig.mapboxTileUrl),
-          stationsAsync.when(
-            data: (stations) {
-              if (!mounted) return const MarkerLayer(markers: []);
-              return StationMarkersLayer(
-                stations: stations,
-                returnStationId: null,
-                selectedStationId: null,
-                onMarkerTap: _showStationInfo,
-                displayedValueBuilder: (station) => station.availableBikes,
-              );
-            },
-            error: (e, st) {
-              return const MarkerLayer(markers: []);
-            },
-            loading: () => const MarkerLayer(markers: []),
+          FlutterMap(
+            options: MapOptions(
+              initialCenter: LatLng(13.3590756, 103.8709673),
+              initialZoom: 13.5,
+              onTap: (_, __) => _showActivePassAlert(), 
+            ),
+            children: [
+              TileLayer(urlTemplate: AppConfig.mapboxTileUrl),
+              stationsAsync.when(
+                data: (stations) {
+                  if (!mounted) return const MarkerLayer(markers: []);
+                  return StationMarkersLayer(
+                    stations: stations,
+                    returnStationId: null,
+                    selectedStationId: null,
+                    onMarkerTap: (station) {
+                      _showStationInfo(station);
+                      _showActivePassAlert(); 
+                    },
+                    displayedValueBuilder: (station) => station.availableBikes,
+                  );
+                },
+                error: (e, st) => const MarkerLayer(markers: []),
+                loading: () => const MarkerLayer(markers: []),
+              ),
+            ],
           ),
         ],
       ),

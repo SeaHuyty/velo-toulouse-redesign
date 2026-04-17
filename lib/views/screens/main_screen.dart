@@ -1,20 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:velo_toulouse_redesign/core/providers/pass_booking_provider.dart';
 import 'package:velo_toulouse_redesign/core/theme/theme.dart';
+import 'package:velo_toulouse_redesign/view_model/pass_view_model.dart';
+import 'package:velo_toulouse_redesign/view_model/user_viewmodel.dart';
 import 'package:velo_toulouse_redesign/views/screens/map_screen.dart';
 import 'package:velo_toulouse_redesign/views/screens/user_profile_screen.dart';
 import 'package:velo_toulouse_redesign/views/screens/select_pass_screen.dart';
 
-class MainScreen extends StatefulWidget {
+class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  ConsumerState<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends ConsumerState<MainScreen> {
   int _currentIndex = 0;
 
-  static const _screens = [MapScreen(),SelectPassScreen(), UserProfileScreen()];
+  static const _screens = [MapScreen(), SelectPassScreen(), UserProfileScreen()];
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showActivePassAlert();
+    });
+  }
+
+  void _showActivePassAlert() {
+    final viewModel = ref.read(passViewModelProvider.notifier);
+    final user = ref.read(userViewModelProvider).value;
+
+    if (viewModel.hasActivePass()) {
+      final passTitle =
+          ref.read(selectedPassProvider)?.title ?? user?.activePassTitle;
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Your $passTitle is active.'),
+          backgroundColor: AppColors.primaryColor,
+          duration: const Duration(seconds: 10),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +117,12 @@ class _MainScreenState extends State<MainScreen> {
 
     return InkWell(
       borderRadius: BorderRadius.circular(12),
-      onTap: () => setState(() => _currentIndex = index),
+      onTap: () {
+        if (_currentIndex != index) {
+          _showActivePassAlert();
+        }
+        setState(() => _currentIndex = index);
+      },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         curve: Curves.easeOut,

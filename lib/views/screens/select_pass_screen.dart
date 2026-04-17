@@ -1,3 +1,4 @@
+import 'package:velo_toulouse_redesign/view_model/user_viewmodel.dart';
 import 'package:velo_toulouse_redesign/views/screens/pass_payment_screen.dart';
 import '../../core/providers/pass_booking_provider.dart';
 import '../../view_model/pass_view_model.dart';
@@ -24,6 +25,16 @@ class SelectPassScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final passesAsync = ref.watch(passViewModelProvider);
     final selectedPass = ref.watch(selectedPassProvider);
+    final userAsync = ref.watch(userViewModelProvider);
+    
+    // Check if user has an active pass in their profile
+    final user = userAsync.value;
+    bool hasActivePass = false;
+    
+    if (user != null && user.activePassExpiry != null) {
+      final viewModel = ref.read(passViewModelProvider.notifier);
+      hasActivePass = viewModel.hasActivePass();
+    }
 
     return Scaffold(
       backgroundColor: AppColors.white,
@@ -51,7 +62,7 @@ class SelectPassScreen extends ConsumerWidget {
                       description: 'Valid for ${pass.duration}',
                       icon: Icons.calendar_today_outlined,
                       isSelected: selectedPass?.title == pass.title,
-                      onTap: () {
+                      onTap: hasActivePass ? () {} : () {
                         ref.read(selectedPassProvider.notifier).state = pass;
                       },
                     ),
@@ -63,10 +74,32 @@ class SelectPassScreen extends ConsumerWidget {
                 left: 16,
                 right: 16,
                 child: VeloButton(
-                  text: 'Continue to Payment',
-                  onPressed: () => goToPayment(context),
+                  text: hasActivePass ? 'Pass Already Active' : 'Continue to Payment',
+                  onPressed: hasActivePass ? null : () => goToPayment(context),
                 ),
               ),
+              if (hasActivePass)
+                Positioned(
+                  top: 490,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    color: AppColors.primaryColor,
+                    child: Row(
+                      children: [
+                        Icon(Icons.info_outline, color: AppColors.white),
+                        const SizedBox(width: 8),
+                        const Expanded(
+                          child: Text(
+                            'You already have an active pass. You cannot purchase a new one until it expires.',
+                            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
             ],
           );
         },
