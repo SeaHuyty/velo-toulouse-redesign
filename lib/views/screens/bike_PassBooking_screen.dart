@@ -7,12 +7,12 @@ import 'package:velo_toulouse_redesign/views/screens/active_ride_screen.dart';
 import 'package:velo_toulouse_redesign/views/widgets/actions/button.dart';
 import 'package:velo_toulouse_redesign/views/widgets/display/top_bar/app_bar.dart';
 
-class BikeRentingScreen extends ConsumerStatefulWidget {
+class BikePassbookingScreen extends ConsumerStatefulWidget {
   final String stationName;
   final String stationAddress;
   final BikeModel bike;
 
-  const BikeRentingScreen({
+  const BikePassbookingScreen({
     super.key,
     required this.stationName,
     required this.stationAddress,
@@ -20,11 +20,11 @@ class BikeRentingScreen extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<BikeRentingScreen> createState() => _BikeRentingScreenState();
+  ConsumerState<BikePassbookingScreen> createState() => _BikeRentingScreenState();
 }
 
 
-class _BikeRentingScreenState extends ConsumerState<BikeRentingScreen> {
+class _BikeRentingScreenState extends ConsumerState<BikePassbookingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

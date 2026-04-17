@@ -18,7 +18,7 @@ class PaymentInfoCardWidget extends StatelessWidget {
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(30),
       decoration: BoxDecoration(
-        color: AppColors.primaryColor,
+        color: const Color.fromARGB(255, 35, 104, 37),
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
@@ -34,7 +34,7 @@ class PaymentInfoCardWidget extends StatelessWidget {
           Text(
             "Selected Plan",
             style: AppTextStyles.heading.copyWith(
-              fontSize: 28,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
               color: AppColors.white,
             ),
@@ -88,7 +88,7 @@ class PaymentInfoCardWidget extends StatelessWidget {
               Text(
                 "Price: ${pass.price.toStringAsFixed(0)}€",
                 style: AppTextStyles.body.copyWith(
-                  fontSize: 22,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: AppColors.white,
                 ),

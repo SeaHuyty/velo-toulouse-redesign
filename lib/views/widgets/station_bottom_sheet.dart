@@ -4,8 +4,8 @@ import 'package:velo_toulouse_redesign/core/theme/theme.dart';
 import 'package:velo_toulouse_redesign/data/models/station_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velo_toulouse_redesign/view_model/pass_view_model.dart';
-import 'package:velo_toulouse_redesign/views/screens/bike_PassBooking_screen.dart' as pass_flow;
-import 'package:velo_toulouse_redesign/views/screens/bike_renting_screen.dart' as pay_flow;
+import 'package:velo_toulouse_redesign/views/screens/bike_PassBooking_screen.dart';
+import 'package:velo_toulouse_redesign/views/screens/bike_renting_screen.dart';
 
 class StationBottomSheet extends ConsumerWidget {
   final StationModel station;
@@ -200,7 +200,7 @@ class StationBottomSheet extends ConsumerWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => pass_flow.BikeRentingScreen(
+                          builder: (_) => BikePassbookingScreen(
                             stationName: station.name,
                             stationAddress: station.address,
                             bike: bike,
@@ -211,7 +211,7 @@ class StationBottomSheet extends ConsumerWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => pay_flow.BikeRentingScreen(
+                          builder: (_) => BikeRentingScreen(
                             stationName: station.name,
                             stationAddress: station.address,
                             bike: bike,
