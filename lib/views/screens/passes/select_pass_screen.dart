@@ -1,13 +1,12 @@
 import 'package:velo_toulouse_redesign/view_model/user_viewmodel.dart';
-import 'package:velo_toulouse_redesign/views/screens/pass_payment_screen.dart';
-import '../../core/providers/pass_booking_provider.dart';
-import '../../view_model/pass_view_model.dart';
-import '../widgets/display/top_bar/app_bar.dart';
-import '../widgets/display/card/pass_card_widget.dart';
+import 'package:velo_toulouse_redesign/views/screens/passes/pass_payment_screen.dart';
+import '../../../core/providers/pass_booking_provider.dart';
+import '../../../view_model/pass_viewmodel.dart';
+import '../../widgets/display/card/pass_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../widgets/actions/button.dart';
-import '../../core/theme/theme.dart';
+import '../../widgets/actions/button.dart';
+import '../../../core/theme/theme.dart';
 
 class SelectPassScreen extends ConsumerWidget {
   const SelectPassScreen({super.key});
@@ -15,9 +14,7 @@ class SelectPassScreen extends ConsumerWidget {
   void goToPayment(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => const PassPaymentScreen(),
-      ),
+      MaterialPageRoute(builder: (context) => const PassPaymentScreen()),
     );
   }
 
@@ -26,10 +23,10 @@ class SelectPassScreen extends ConsumerWidget {
     final passesAsync = ref.watch(passViewModelProvider);
     final selectedPass = ref.watch(selectedPassProvider);
     final userAsync = ref.watch(userViewModelProvider);
-    
+
     final user = userAsync.value;
     bool hasActivePass = false;
-    
+
     if (user != null && user.activePassExpiry != null) {
       final viewModel = ref.read(passViewModelProvider.notifier);
       hasActivePass = viewModel.hasActivePass();
@@ -37,7 +34,10 @@ class SelectPassScreen extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: const StationAppBar(title: 'Select a Pass'),
+      appBar: AppBar(
+        title: Center(child: Text("Select a Pass")),
+        backgroundColor: Colors.white,
+      ),
       body: passesAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (err, stack) => Center(child: Text('Error: $err')),
@@ -75,7 +75,9 @@ class SelectPassScreen extends ConsumerWidget {
                 left: 16,
                 right: 16,
                 child: VeloButton(
-                  text: hasActivePass ? 'Pass Already Active' : 'Continue to Payment',
+                  text: hasActivePass
+                      ? 'Pass Already Active'
+                      : 'Continue to Payment',
                   onPressed: hasActivePass ? null : () => goToPayment(context),
                 ),
               ),
@@ -94,7 +96,11 @@ class SelectPassScreen extends ConsumerWidget {
                         const Expanded(
                           child: Text(
                             'You already have an active pass. You cannot purchase a new one until it expires.',
-                            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.white),
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.white,
+                            ),
                           ),
                         ),
                       ],
@@ -108,10 +114,3 @@ class SelectPassScreen extends ConsumerWidget {
     );
   }
 }
-
-
-
-
-
-
-

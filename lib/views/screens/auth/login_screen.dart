@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:velo_toulouse_redesign/core/theme/theme.dart';
 import 'package:velo_toulouse_redesign/view_model/user_viewmodel.dart';
 import 'package:velo_toulouse_redesign/views/screens/auth/forgot_password_screen.dart';
 import 'package:velo_toulouse_redesign/views/screens/auth/sign_up_screen.dart';
-import 'package:velo_toulouse_redesign/views/screens/main_screen.dart';
+import 'package:velo_toulouse_redesign/views/screens/core/main_screen.dart';
 
 const String appLogoImagePath = 'assets/images/velo_logo.png';
 
@@ -59,7 +60,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     });
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -121,7 +122,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       children: [
                         const Text("Don't have account? "),
                         GestureDetector(
-                          onTap: () => Navigator.pushReplacement(
+                          onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (_) => const SignUpScreen(),
@@ -152,6 +153,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ElevatedButton(
                   onPressed: isLoading ? null : _login,
                   style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryColor,
+                    foregroundColor: AppColors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
