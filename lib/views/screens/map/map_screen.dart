@@ -85,7 +85,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
             options: MapOptions(
               initialCenter: LatLng(13.3590756, 103.8709673),
               initialZoom: 13.5,
-              onTap: (_, __) => _showActivePassAlert(),
+              onTap: (_, lng) => _showActivePassAlert(),
             ),
             children: [
               TileLayer(urlTemplate: AppConfig.mapboxTileUrl),
