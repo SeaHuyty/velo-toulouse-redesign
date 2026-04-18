@@ -16,14 +16,16 @@ class PassViewModel extends AsyncNotifier<List<PassModel>> {
 
   bool hasActivePass() {
     final user = ref.read(userViewModelProvider).value;
-    if (user?.activePassExpiry == null) return false;
+    final expiry = user?.activePassExpiry;
+    
+    if (expiry == null) return false;
 
     try {
-      final cleanDate = user!.activePassExpiry!.replaceFirst('Le. ', '');
-      final expiryDate = DateFormat('d / MMMM / y').parse(cleanDate);
+      final expiryDate = DateFormat('d / MMMM / y').parse(expiry);
+     
       return expiryDate.isAfter(DateTime.now());
     } catch (e) {
-      return false;
+      return false; 
     }
   }
 
@@ -47,7 +49,7 @@ class PassViewModel extends AsyncNotifier<List<PassModel>> {
       expiry = now.add(const Duration(days: 1));
     }
 
-    return 'Le. ${expiry.day} / ${DateFormat('MMMM').format(expiry)} / ${expiry.year}';
+    return '${expiry.day} / ${DateFormat('MMMM').format(expiry)} / ${expiry.year}';
   }
 
   Future<void> purchasePass(PassModel pass) async {

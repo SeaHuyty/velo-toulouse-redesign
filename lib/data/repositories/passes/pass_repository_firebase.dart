@@ -21,9 +21,4 @@ class PassRepositoryFirebase implements PassRepository {
       throw Exception('Could not load passes from Firebase');
     }
   }
-
-  @override
-  Future<PassModel?> getPassById(String passId) async {
-    return null;
-  }
 }

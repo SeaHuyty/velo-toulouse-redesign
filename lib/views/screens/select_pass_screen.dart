@@ -54,13 +54,15 @@ class SelectPassScreen extends ConsumerWidget {
                 itemCount: passes.length,
                 itemBuilder: (context, index) {
                   final pass = passes[index];
+                  final isCurrentActivePass = user != null && pass.isActiveFor(user);
+                  
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 16),
                     child: PassCardWidget(
                       pass: pass,
-                      description: 'Valid for ${pass.duration}',
-                      icon: Icons.calendar_today_outlined,
-                      isSelected: selectedPass?.title == pass.title,
+                      description: isCurrentActivePass ? 'Your Active Pass' : 'Valid for ${pass.duration}',
+                      icon: isCurrentActivePass ? Icons.check_circle : Icons.calendar_today_outlined,
+                      isSelected: selectedPass?.title == pass.title || isCurrentActivePass,
                       onTap: hasActivePass ? () {} : () {
                         ref.read(selectedPassProvider.notifier).state = pass;
                       },
