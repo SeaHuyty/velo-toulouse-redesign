@@ -2,12 +2,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:velo_toulouse_redesign/view_model/user_viewmodel.dart';
 import '../../data/models/pass.dart';
-import '../../data/repositories/passes/pass_repository_firebase.dart';
 import '../core/providers/pass_booking_provider.dart';
 
 
 final passViewModelProvider = AsyncNotifierProvider<PassViewModel, List<PassModel>>(PassViewModel.new);
-
 
 class PassViewModel extends AsyncNotifier<List<PassModel>> {
   @override
@@ -16,24 +14,18 @@ class PassViewModel extends AsyncNotifier<List<PassModel>> {
     return repo.getAvailablePasses();
   }
 
-  void selectPass(PassModel pass) {
-    ref.read(selectedPassProvider.notifier).state = pass;
-  }
-
-    bool hasActivePass() {
+  bool hasActivePass() {
     final user = ref.read(userViewModelProvider).value;
-      if (user?.activePassExpiry == null) return false;
+    if (user?.activePassExpiry == null) return false;
 
-      try {
-        final cleanDate = user!.activePassExpiry!.replaceFirst('Le. ', '');
-        
-        final expiryDate = DateFormat('d / MMMM / y').parse(cleanDate);
-
-        return expiryDate.isAfter(DateTime.now());
-      } catch (e) {
-        return false; 
-      }
+    try {
+      final cleanDate = user!.activePassExpiry!.replaceFirst('Le. ', '');
+      final expiryDate = DateFormat('d / MMMM / y').parse(cleanDate);
+      return expiryDate.isAfter(DateTime.now());
+    } catch (e) {
+      return false;
     }
+  }
 
   String getExpiryDate() {
     final selectedPass = ref.read(selectedPassProvider);
@@ -41,7 +33,6 @@ class PassViewModel extends AsyncNotifier<List<PassModel>> {
 
     final now = DateTime.now();
     DateTime expiry;
-
     final duration = selectedPass.duration.toLowerCase();
 
     if (duration.contains('24 hours') || duration.contains('1 day')) {
@@ -56,29 +47,13 @@ class PassViewModel extends AsyncNotifier<List<PassModel>> {
       expiry = now.add(const Duration(days: 1));
     }
 
-    final months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December'
-    ];
-
-    return 'Le. ${expiry.day} / ${months[expiry.month - 1]} / ${expiry.year}';
+    return 'Le. ${expiry.day} / ${DateFormat('MMMM').format(expiry)} / ${expiry.year}';
   }
 
   Future<void> purchasePass(PassModel pass) async {
     final expiryDate = getExpiryDate();
-    ref.read(selectedPassProvider.notifier).state = pass;
-
     final user = ref.read(userViewModelProvider).value;
+
     if (user != null) {
       final updatedUser = user.copyWith(
         activePassId: pass.id,

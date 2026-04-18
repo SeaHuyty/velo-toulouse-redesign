@@ -40,7 +40,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         SnackBar(
           content: Text('Your $passTitle is active.'),
           backgroundColor: AppColors.primaryColor,
-          duration: const Duration(seconds: 5),
+          duration: const Duration(seconds: 3),
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -85,7 +85,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
             options: MapOptions(
               initialCenter: LatLng(13.3590756, 103.8709673),
               initialZoom: 13.5,
-              onTap: (_, __) => _showActivePassAlert(), 
+              onTap: (_, __) => _showActivePassAlert(),
             ),
             children: [
               TileLayer(urlTemplate: AppConfig.mapboxTileUrl),
@@ -98,7 +98,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                     selectedStationId: null,
                     onMarkerTap: (station) {
                       _showStationInfo(station);
-                      _showActivePassAlert(); 
+                      _showActivePassAlert();
                     },
                     displayedValueBuilder: (station) => station.availableBikes,
                   );
