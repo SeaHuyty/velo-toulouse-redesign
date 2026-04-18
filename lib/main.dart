@@ -6,8 +6,8 @@ import 'package:velo_toulouse_redesign/core/utils/app_config.dart';
 import 'package:velo_toulouse_redesign/core/utils/firebase_options.dart';
 import 'package:velo_toulouse_redesign/core/providers/auth_provider.dart';
 import 'package:velo_toulouse_redesign/views/screens/auth/login_screen.dart';
-import 'package:velo_toulouse_redesign/views/screens/main_screen.dart';
-import 'package:velo_toulouse_redesign/views/screens/splash_screen.dart';
+import 'package:velo_toulouse_redesign/views/screens/core/main_screen.dart';
+import 'package:velo_toulouse_redesign/views/screens/core/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

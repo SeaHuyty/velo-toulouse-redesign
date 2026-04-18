@@ -6,7 +6,7 @@ import 'package:velo_toulouse_redesign/data/models/user_model.dart';
 import 'package:velo_toulouse_redesign/view_model/user_viewmodel.dart';
 import 'package:velo_toulouse_redesign/views/screens/auth/login_screen.dart';
 import 'package:velo_toulouse_redesign/views/screens/user_profile/edit_profile_screen.dart';
-import 'package:velo_toulouse_redesign/views/screens/ride_history_screen.dart';
+import 'package:velo_toulouse_redesign/views/screens/ride/ride_history_screen.dart';
 import 'package:velo_toulouse_redesign/views/widgets/user_menu.dart';
 
 class UserProfileScreen extends ConsumerWidget {

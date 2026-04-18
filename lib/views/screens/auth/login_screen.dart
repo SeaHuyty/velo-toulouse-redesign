@@ -4,7 +4,7 @@ import 'package:velo_toulouse_redesign/core/theme/theme.dart';
 import 'package:velo_toulouse_redesign/view_model/user_viewmodel.dart';
 import 'package:velo_toulouse_redesign/views/screens/auth/forgot_password_screen.dart';
 import 'package:velo_toulouse_redesign/views/screens/auth/sign_up_screen.dart';
-import 'package:velo_toulouse_redesign/views/screens/main_screen.dart';
+import 'package:velo_toulouse_redesign/views/screens/core/main_screen.dart';
 
 const String appLogoImagePath = 'assets/images/velo_logo.png';
 

@@ -3,13 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:velo_toulouse_redesign/core/providers/pass_booking_provider.dart';
 import 'package:velo_toulouse_redesign/core/providers/ride_session_provider.dart';
-import 'package:velo_toulouse_redesign/view_model/pass_view_model.dart';
+import 'package:velo_toulouse_redesign/view_model/pass_viewmodel.dart';
 import 'package:velo_toulouse_redesign/core/providers/auth_provider.dart';
 import 'package:velo_toulouse_redesign/view_model/ride_history_viewmodel.dart';
-import 'package:velo_toulouse_redesign/views/screens/active_ride_screen.dart';
-import 'package:velo_toulouse_redesign/views/screens/main_screen.dart';
+import 'package:velo_toulouse_redesign/views/screens/ride/active_ride_screen.dart';
+import 'package:velo_toulouse_redesign/views/screens/core/main_screen.dart';
 import 'package:velo_toulouse_redesign/views/widgets/actions/button.dart';
-import 'package:velo_toulouse_redesign/views/widgets/display/payment_Info_Card_widget.dart';
+import 'package:velo_toulouse_redesign/views/widgets/display/payment_info_card_widget.dart';
 import 'package:velo_toulouse_redesign/views/widgets/success_header.dart';
 
 class PaymentSuccessScreen extends ConsumerStatefulWidget {
