@@ -19,6 +19,10 @@ jobs:
         with:
           channel: stable
 
+      - name: Create .env if missing
+        run: |
+          touch .env
+
       - name: Get dependencies
         run: flutter pub get
 
