@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:velo_toulouse_redesign/core/theme/theme.dart';
 import 'package:velo_toulouse_redesign/data/models/user_model.dart';
 import 'package:velo_toulouse_redesign/view_model/user_viewmodel.dart';
 import 'package:velo_toulouse_redesign/views/screens/auth/login_screen.dart';
@@ -89,7 +90,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     });
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pushReplacement(
@@ -97,7 +100,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
             MaterialPageRoute(builder: (_) => const LoginScreen()),
           ),
         ),
-        title: const Text('Create New Account'),
+        title: Center(child: const Text('Create New Account')),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -197,6 +200,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 ElevatedButton(
                   onPressed: isLoading ? null : _register,
                   style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryColor,
+                    foregroundColor: AppColors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),

@@ -5,7 +5,7 @@ import 'package:velo_toulouse_redesign/core/theme/theme.dart';
 import 'package:velo_toulouse_redesign/view_model/pass_view_model.dart';
 import 'package:velo_toulouse_redesign/view_model/user_viewmodel.dart';
 import 'package:velo_toulouse_redesign/views/screens/map_screen.dart';
-import 'package:velo_toulouse_redesign/views/screens/user_profile_screen.dart';
+import 'package:velo_toulouse_redesign/views/screens/user_profile/user_profile_screen.dart';
 import 'package:velo_toulouse_redesign/views/screens/select_pass_screen.dart';
 
 class MainScreen extends ConsumerStatefulWidget {

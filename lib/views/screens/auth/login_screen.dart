@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:velo_toulouse_redesign/core/theme/theme.dart';
 import 'package:velo_toulouse_redesign/view_model/user_viewmodel.dart';
 import 'package:velo_toulouse_redesign/views/screens/auth/forgot_password_screen.dart';
 import 'package:velo_toulouse_redesign/views/screens/auth/sign_up_screen.dart';
@@ -152,6 +153,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ElevatedButton(
                   onPressed: isLoading ? null : _login,
                   style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryColor,
+                    foregroundColor: AppColors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),

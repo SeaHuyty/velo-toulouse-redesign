@@ -5,7 +5,7 @@ import 'package:velo_toulouse_redesign/core/providers/pass_booking_provider.dart
 import 'package:velo_toulouse_redesign/data/models/user_model.dart';
 import 'package:velo_toulouse_redesign/view_model/user_viewmodel.dart';
 import 'package:velo_toulouse_redesign/views/screens/auth/login_screen.dart';
-import 'package:velo_toulouse_redesign/views/screens/edit_profile_screen.dart';
+import 'package:velo_toulouse_redesign/views/screens/user_profile/edit_profile_screen.dart';
 import 'package:velo_toulouse_redesign/views/screens/ride_history_screen.dart';
 import 'package:velo_toulouse_redesign/views/widgets/user_menu.dart';
 
@@ -17,7 +17,11 @@ class UserProfileScreen extends ConsumerWidget {
     final userAsync = ref.watch(userViewModelProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Profile')),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Center(child: const Text('Profile')),
+      ),
       body: userAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => const Center(child: Text('Failed to load profile')),
@@ -108,7 +112,11 @@ class UserProfileScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildPassInfoCard(BuildContext context, WidgetRef ref, UserModel user) {
+  Widget _buildPassInfoCard(
+    BuildContext context,
+    WidgetRef ref,
+    UserModel user,
+  ) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
@@ -195,7 +203,9 @@ class UserProfileScreen extends ConsumerWidget {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Remove Pass'),
-        content: const Text('Are you sure you want to remove your active pass?'),
+        content: const Text(
+          'Are you sure you want to remove your active pass?',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
