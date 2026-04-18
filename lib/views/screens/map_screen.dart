@@ -40,7 +40,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         SnackBar(
           content: Text('Your $passTitle is active.'),
           backgroundColor: AppColors.primaryColor,
-          duration: const Duration(seconds: 5),
+          duration: const Duration(seconds: 3),
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),

@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final selectedPassProvider = StateProvider<PassModel?>((ref) => null);
 
-final purchaseDateProvider = StateProvider<DateTime?>((ref) => null);
+final  purchaseDateProvider = StateProvider<DateTime?>((ref) => null);
 
 final passRepositoryProvider = Provider<PassRepository>((ref) {
   return PassRepositoryFirebase();

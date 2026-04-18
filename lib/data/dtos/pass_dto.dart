@@ -14,7 +14,5 @@ class PassDto {
       price: data[price] as double,
       duration: data[duration] as String,
     );
-  }
-
-  
+  }  
 }
