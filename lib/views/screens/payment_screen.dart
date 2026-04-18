@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velo_toulouse_redesign/core/providers/pass_booking_provider.dart';
 import 'package:velo_toulouse_redesign/core/providers/ride_session_provider.dart';
 import 'package:velo_toulouse_redesign/view_model/pass_view_model.dart';
+import 'package:velo_toulouse_redesign/view_model/station_viewmodel.dart';
 import 'package:velo_toulouse_redesign/views/screens/payment_success_screen.dart';
 import 'package:velo_toulouse_redesign/views/widgets/payment_amount_breakdown.dart';
 import 'package:velo_toulouse_redesign/views/widgets/qr_payment_instruction_section.dart';
@@ -44,11 +45,11 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
 
     _stageTimer = Timer(duration, () {
       if (!mounted) return;
-      _advanceStage();
+      unawaited(_advanceStage());
     });
   }
 
-  void _advanceStage() {
+  Future<void> _advanceStage() async {
     final next = switch (stage) {
       ProcessStage.initialize => ProcessStage.paying,
       ProcessStage.paying => ProcessStage.processing,
@@ -64,6 +65,26 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
       final selectedPass = ref.read(selectedPassProvider);
       if (selectedPass != null) {
         ref.read(passViewModelProvider.notifier).purchasePass(selectedPass);
+      } else {
+        final currentRide = ref.read(rideSessionProvider);
+        if (currentRide?.fromStationId != null) {
+          try {
+            await ref
+                .read(stationViewModelProvider.notifier)
+                .checkoutBike(
+                  stationId: currentRide!.fromStationId!,
+                  bikeNumber: currentRide.bikeNumber,
+                );
+          } catch (_) {
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Could not unlock bike. Please try again.'),
+                ),
+              );
+            }
+          }
+        }
       }
     }
 

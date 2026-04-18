@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/legacy.dart';
 class RideSession {
   final String? sessionId;
   final String? userId;
+  final String? fromStationId;
   final String bikeNumber;
   final String fromStationName;
   final String fromStationAddress;
@@ -14,6 +15,7 @@ class RideSession {
   const RideSession({
     this.sessionId,
     this.userId,
+    this.fromStationId,
     required this.bikeNumber,
     required this.fromStationName,
     required this.fromStationAddress,
@@ -26,6 +28,7 @@ class RideSession {
   RideSession copyWith({
     String? sessionId,
     String? userId,
+    String? fromStationId,
     String? bikeNumber,
     String? fromStationName,
     String? fromStationAddress,
@@ -37,6 +40,7 @@ class RideSession {
     return RideSession(
       sessionId: sessionId ?? this.sessionId,
       userId: userId ?? this.userId,
+      fromStationId: fromStationId ?? this.fromStationId,
       bikeNumber: bikeNumber ?? this.bikeNumber,
       fromStationName: fromStationName ?? this.fromStationName,
       fromStationAddress: fromStationAddress ?? this.fromStationAddress,

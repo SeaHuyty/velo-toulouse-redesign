@@ -195,12 +195,15 @@ class StationBottomSheet extends ConsumerWidget {
                 final bike = station.dockedBikes[i];
                 return GestureDetector(
                   onTap: () {
-                    final hasPass = ref.read(passViewModelProvider.notifier).hasActivePass();
+                    final hasPass = ref
+                        .read(passViewModelProvider.notifier)
+                        .hasActivePass();
                     if (hasPass) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (_) => BikePassbookingScreen(
+                            stationId: station.id,
                             stationName: station.name,
                             stationAddress: station.address,
                             bike: bike,
@@ -212,6 +215,7 @@ class StationBottomSheet extends ConsumerWidget {
                         context,
                         MaterialPageRoute(
                           builder: (_) => BikeRentingScreen(
+                            stationId: station.id,
                             stationName: station.name,
                             stationAddress: station.address,
                             bike: bike,
