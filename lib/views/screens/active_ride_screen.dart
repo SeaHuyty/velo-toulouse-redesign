@@ -67,6 +67,24 @@ class _ActiveRideScreenState extends ConsumerState<ActiveRideScreen> {
     final rideSession = ref.read(rideSessionProvider);
     if (rideSession == null || _returnStation == null) return;
 
+    try {
+      await ref
+          .read(stationViewModelProvider.notifier)
+          .dockBike(
+            stationId: _returnStation!.id,
+            bikeNumber: rideSession.bikeNumber,
+          );
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Could not complete docking. Please try again.'),
+          ),
+        );
+      }
+      return;
+    }
+
     if (rideSession.sessionId != null) {
       await ref
           .read(rideHistoryViewModelProvider.notifier)

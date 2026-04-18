@@ -9,12 +9,14 @@ import 'package:velo_toulouse_redesign/views/widgets/actions/button.dart';
 import 'package:velo_toulouse_redesign/views/widgets/display/top_bar/app_bar.dart';
 
 class BikeRentingScreen extends ConsumerStatefulWidget {
+  final String stationId;
   final String stationName;
   final String stationAddress;
   final BikeModel bike;
 
   const BikeRentingScreen({
     super.key,
+    required this.stationId,
     required this.stationName,
     required this.stationAddress,
     required this.bike,
@@ -332,6 +334,7 @@ class _BikeRentingScreenState extends ConsumerState<BikeRentingScreen> {
               text: "Pay now",
               onPressed: () {
                 ref.read(rideSessionProvider.notifier).state = RideSession(
+                  fromStationId: widget.stationId,
                   bikeNumber: widget.bike.plateNumber,
                   fromStationName: widget.stationName,
                   fromStationAddress: widget.stationAddress,

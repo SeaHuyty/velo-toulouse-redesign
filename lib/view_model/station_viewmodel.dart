@@ -14,8 +14,27 @@ class StationViewModel extends AsyncNotifier<List<StationModel>> {
     final repository = ref.read(stationRepositoryProvider);
     return repository.getStations();
   }
+
+  Future<void> checkoutBike({
+    required String stationId,
+    required String bikeNumber,
+  }) async {
+    final repository = ref.read(stationRepositoryProvider);
+    await repository.checkoutBike(stationId: stationId, bikeNumber: bikeNumber);
+    ref.invalidateSelf();
+  }
+
+  Future<void> dockBike({
+    required String stationId,
+    required String bikeNumber,
+  }) async {
+    final repository = ref.read(stationRepositoryProvider);
+    await repository.dockBike(stationId: stationId, bikeNumber: bikeNumber);
+    ref.invalidateSelf();
+  }
 }
 
-final stationViewModelProvider = AsyncNotifierProvider<StationViewModel, List<StationModel>>(() {
-  return StationViewModel();
-});
+final stationViewModelProvider =
+    AsyncNotifierProvider<StationViewModel, List<StationModel>>(() {
+      return StationViewModel();
+    });

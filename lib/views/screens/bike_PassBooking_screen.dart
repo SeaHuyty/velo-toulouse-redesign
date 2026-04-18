@@ -3,28 +3,33 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velo_toulouse_redesign/core/providers/ride_session_provider.dart';
 import 'package:velo_toulouse_redesign/core/theme/theme.dart';
 import 'package:velo_toulouse_redesign/data/models/bike_model.dart';
+import 'package:velo_toulouse_redesign/view_model/station_viewmodel.dart';
 import 'package:velo_toulouse_redesign/views/screens/active_ride_screen.dart';
 import 'package:velo_toulouse_redesign/views/widgets/actions/button.dart';
 import 'package:velo_toulouse_redesign/views/widgets/display/top_bar/app_bar.dart';
 
 class BikePassbookingScreen extends ConsumerStatefulWidget {
+  final String stationId;
   final String stationName;
   final String stationAddress;
   final BikeModel bike;
 
   const BikePassbookingScreen({
     super.key,
+    required this.stationId,
     required this.stationName,
     required this.stationAddress,
     required this.bike,
   });
 
   @override
-  ConsumerState<BikePassbookingScreen> createState() => _BikeRentingScreenState();
+  ConsumerState<BikePassbookingScreen> createState() =>
+      _BikeRentingScreenState();
 }
 
-
 class _BikeRentingScreenState extends ConsumerState<BikePassbookingScreen> {
+  bool _isStartingRide = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +56,7 @@ class _BikeRentingScreenState extends ConsumerState<BikePassbookingScreen> {
                       height: 180,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white.withAlpha(18), 
+                        color: Colors.white.withAlpha(18),
                       ),
                     ),
                   ),
@@ -63,7 +68,7 @@ class _BikeRentingScreenState extends ConsumerState<BikePassbookingScreen> {
                       height: 130,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white.withAlpha(13), 
+                        color: Colors.white.withAlpha(13),
                       ),
                     ),
                   ),
@@ -79,7 +84,7 @@ class _BikeRentingScreenState extends ConsumerState<BikePassbookingScreen> {
                             vertical: 5,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.white.withAlpha(46), 
+                            color: Colors.white.withAlpha(46),
                           ),
                           child: Text(
                             "Station Info",
@@ -126,9 +131,7 @@ class _BikeRentingScreenState extends ConsumerState<BikePassbookingScreen> {
                         ),
 
                         const SizedBox(height: 24),
-                        Divider(
-                          color: Colors.white.withAlpha(38), 
-                        ),
+                        Divider(color: Colors.white.withAlpha(38)),
                         const SizedBox(height: 16),
 
                         Row(
@@ -136,7 +139,7 @@ class _BikeRentingScreenState extends ConsumerState<BikePassbookingScreen> {
                             Container(
                               padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
-                                color: Colors.white.withAlpha(38), 
+                                color: Colors.white.withAlpha(38),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: const Icon(
@@ -147,8 +150,7 @@ class _BikeRentingScreenState extends ConsumerState<BikePassbookingScreen> {
                             ),
                             const SizedBox(width: 14),
                             Column(
-                              crossAxisAlignment:
-                                  CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   "Bike Selected",
@@ -181,20 +183,55 @@ class _BikeRentingScreenState extends ConsumerState<BikePassbookingScreen> {
             Center(
               child: VeloButton(
                 text: "Start Riding",
-                onPressed: () {
-                  ref.read(rideSessionProvider.notifier).state = RideSession(
-                    bikeNumber: widget.bike.plateNumber,
-                    fromStationName: widget.stationName,
-                    fromStationAddress: widget.stationAddress,
-                  );
+                onPressed: _isStartingRide
+                    ? null
+                    : () async {
+                        setState(() => _isStartingRide = true);
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ActiveRideScreen(),
-                    ),
-                  );
-                },
+                        try {
+                          try {
+                            await ref
+                                .read(stationViewModelProvider.notifier)
+                                .checkoutBike(
+                                  stationId: widget.stationId,
+                                  bikeNumber: widget.bike.plateNumber,
+                                );
+                          } catch (_) {
+                            if (mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Could not unlock bike. Please try again.',
+                                  ),
+                                ),
+                              );
+                            }
+                            return;
+                          }
+
+                          ref
+                              .read(rideSessionProvider.notifier)
+                              .state = RideSession(
+                            fromStationId: widget.stationId,
+                            bikeNumber: widget.bike.plateNumber,
+                            fromStationName: widget.stationName,
+                            fromStationAddress: widget.stationAddress,
+                          );
+
+                          if (!mounted) return;
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ActiveRideScreen(),
+                            ),
+                          );
+                        } finally {
+                          if (mounted) {
+                            setState(() => _isStartingRide = false);
+                          }
+                        }
+                      },
               ),
             ),
           ],
@@ -203,4 +240,3 @@ class _BikeRentingScreenState extends ConsumerState<BikePassbookingScreen> {
     );
   }
 }
-
