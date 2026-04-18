@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:velo_toulouse_redesign/core/theme/theme.dart';
 import 'package:velo_toulouse_redesign/data/models/ride_history_model.dart';
 import 'package:velo_toulouse_redesign/view_model/ride_history_viewmodel.dart';
+import 'package:velo_toulouse_redesign/views/widgets/display/top_bar/app_bar.dart';
 
 class RideHistoryScreen extends ConsumerWidget {
   const RideHistoryScreen({super.key});
@@ -11,7 +13,8 @@ class RideHistoryScreen extends ConsumerWidget {
     final historyAsync = ref.watch(rideHistoryViewModelProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Ride History')),
+      backgroundColor: AppColors.white,
+      appBar: StationAppBar(title: 'Ride History'),
       body: historyAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, _) => Center(
@@ -70,7 +73,7 @@ class _HistoryTile extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.black.withValues(alpha: 0.06)),
+        border: Border.all(color: Colors.black.withValues(alpha: 0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

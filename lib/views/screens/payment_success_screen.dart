@@ -63,35 +63,29 @@ class _PaymentSuccessScreenState extends ConsumerState<PaymentSuccessScreen> {
             const SizedBox(height: 50),
             VeloButton(
               text: isPassFlow ? 'Go to Map' : 'Start Riding',
-              onPressed: () {
-                if (isPassFlow) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const MainScreen()),
-                  );
-                } else {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ActiveRideScreen(),
-                    ),
-                  );
-                }
-              },
-            ),
-            const SizedBox(height: 150),
-            VeloButton(
-              text: 'Start Riding',
-              onPressed: _isStartingRide
+              onPressed: isPassFlow
+                  ? () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MainScreen(),
+                        ),
+                      );
+                    }
+                  : _isStartingRide
                   ? null
                   : () async {
+                      final currentRideSession = rideSession;
                       final authUser = ref
                           .read(authStateProvider)
                           .asData
                           ?.value;
-                      if (authUser == null) return;
 
-                      if (rideSession!.sessionId == null) {
+                      if (authUser == null || currentRideSession == null) {
+                        return;
+                      }
+
+                      if (currentRideSession.sessionId == null) {
                         setState(() {
                           _isStartingRide = true;
                         });
@@ -100,17 +94,19 @@ class _PaymentSuccessScreenState extends ConsumerState<PaymentSuccessScreen> {
                               .read(rideHistoryViewModelProvider.notifier)
                               .startRide(
                                 userId: authUser.uid,
-                                bikeNumber: rideSession.bikeNumber,
-                                fromStationName: rideSession.fromStationName,
+                                bikeNumber: currentRideSession.bikeNumber,
+                                fromStationName:
+                                    currentRideSession.fromStationName,
                                 fromStationAddress:
-                                    rideSession.fromStationAddress,
-                                amountPaid: rideSession.amountPaid ?? 2.0,
+                                    currentRideSession.fromStationAddress,
+                                amountPaid:
+                                    currentRideSession.amountPaid ?? 2.0,
                               );
 
                           if (history != null) {
                             ref
                                 .read(rideSessionProvider.notifier)
-                                .state = rideSession.copyWith(
+                                .state = currentRideSession.copyWith(
                               sessionId: history.id,
                               userId: history.userId,
                               startedAtMs: history.startedAtMs,

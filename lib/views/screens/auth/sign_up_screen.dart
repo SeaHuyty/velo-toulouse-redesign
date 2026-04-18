@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velo_toulouse_redesign/core/theme/theme.dart';
 import 'package:velo_toulouse_redesign/data/models/user_model.dart';
 import 'package:velo_toulouse_redesign/view_model/user_viewmodel.dart';
-import 'package:velo_toulouse_redesign/views/screens/auth/login_screen.dart';
 import 'package:velo_toulouse_redesign/views/screens/main_screen.dart';
+import 'package:velo_toulouse_redesign/views/widgets/display/top_bar/app_bar.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
@@ -90,17 +90,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     });
 
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (_) => const LoginScreen()),
-          ),
-        ),
-        title: Center(child: const Text('Create New Account')),
+      backgroundColor: AppColors.white,
+      appBar: StationAppBar(
+        title: 'Create New Account',
       ),
       body: SafeArea(
         child: SingleChildScrollView(
