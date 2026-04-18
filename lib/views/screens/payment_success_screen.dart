@@ -39,54 +39,43 @@ class _PaymentSuccessScreenState extends ConsumerState<PaymentSuccessScreen> {
     final isPassFlow = selectedPass != null;
 
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SuccessHeader(
-              title: isPassFlow ? 'Pass Activated!' : 'Payment successful!',
-              subtitle: isPassFlow
-                  ? 'Your ${selectedPass.title} is now active. Enjoy your rides!'
-                  : 'Your payment has been completed. Your bike is unlocked!',
-              circleColor: const Color(0xFFE8F5E9),
-              iconColor: const Color(0xFF2E7D32),
-            ),
-            if (isPassFlow) ...[
-              const SizedBox(height: 30),
-              PaymentInfoCardWidget(
-                pass: selectedPass,
-                expiryDate: ref.read(passViewModelProvider.notifier).getExpiryDate(),
-              ),
-            ],
-            const SizedBox(height: 50),
-            VeloButton(
-              text: isPassFlow ? 'Go to Map' : 'Start Riding',
-              onPressed: () {
-                if (isPassFlow) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const MainScreen(),
-                    ),
-                  );
-                } else {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ActiveRideScreen(),
-                    ),
-                  );
-                }
-              },
-            ),
-            const SizedBox(height: 150),
-            VeloButton(
-              text: 'Start Riding',
-              onPressed: _isStartingRide
-                  ? null
-                  : () async {
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 15.0, vertical: 40.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SuccessHeader(
+                  title: isPassFlow ? 'Pass Activated!' : 'Payment successful!',
+                  subtitle: isPassFlow
+                      ? 'Your ${selectedPass.title} is now active. Enjoy your rides!'
+                      : 'Your payment has been completed. Your bike is unlocked!',
+                  circleColor: const Color(0xFFE8F5E9),
+                  iconColor: const Color(0xFF2E7D32),
+                ),
+                if (isPassFlow) ...[
+                  const SizedBox(height: 30),
+                  PaymentInfoCardWidget(
+                    pass: selectedPass,
+                    expiryDate:
+                        ref.read(passViewModelProvider.notifier).getExpiryDate(),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                VeloButton(
+                  text: isPassFlow ? 'Go to Map' : 'Start Riding',
+                  onPressed: () async {
+                    if (isPassFlow) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MainScreen(),
+                        ),
+                      );
+                    } else {
                       final authUser = ref.read(authStateProvider).asData?.value;
                       if (authUser == null) return;
 
@@ -131,11 +120,15 @@ class _PaymentSuccessScreenState extends ConsumerState<PaymentSuccessScreen> {
                           builder: (context) => const ActiveRideScreen(),
                         ),
                       );
-                    },
+                    }
+                  },
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
+

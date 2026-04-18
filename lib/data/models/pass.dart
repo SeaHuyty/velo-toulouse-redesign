@@ -1,4 +1,6 @@
 
+import 'user_model.dart';
+
 class PassModel {
   final String id;
   final String title;
@@ -12,4 +14,7 @@ class PassModel {
     required this.duration,
   });
 
+  bool isActiveFor(UserModel user) {
+    return user.activePassId == id;
+  }
 }
