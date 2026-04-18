@@ -30,9 +30,7 @@ class _PaymentSuccessScreenState extends ConsumerState<PaymentSuccessScreen> {
 
     if (rideSession == null && selectedPass == null) {
       return const Scaffold(
-        body: Center(
-          child: Text('No active ride sessionfound.'),
-        ),
+        body: Center(child: Text('No active ride sessionfound.')),
       );
     }
 
@@ -57,7 +55,9 @@ class _PaymentSuccessScreenState extends ConsumerState<PaymentSuccessScreen> {
               const SizedBox(height: 30),
               PaymentInfoCardWidget(
                 pass: selectedPass,
-                expiryDate: ref.read(passViewModelProvider.notifier).getExpiryDate(),
+                expiryDate: ref
+                    .read(passViewModelProvider.notifier)
+                    .getExpiryDate(),
               ),
             ],
             const SizedBox(height: 50),
@@ -67,9 +67,7 @@ class _PaymentSuccessScreenState extends ConsumerState<PaymentSuccessScreen> {
                 if (isPassFlow) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => const MainScreen(),
-                    ),
+                    MaterialPageRoute(builder: (context) => const MainScreen()),
                   );
                 } else {
                   Navigator.push(
@@ -87,7 +85,10 @@ class _PaymentSuccessScreenState extends ConsumerState<PaymentSuccessScreen> {
               onPressed: _isStartingRide
                   ? null
                   : () async {
-                      final authUser = ref.read(authStateProvider).asData?.value;
+                      final authUser = ref
+                          .read(authStateProvider)
+                          .asData
+                          ?.value;
                       if (authUser == null) return;
 
                       if (rideSession!.sessionId == null) {
@@ -107,8 +108,9 @@ class _PaymentSuccessScreenState extends ConsumerState<PaymentSuccessScreen> {
                               );
 
                           if (history != null) {
-                            ref.read(rideSessionProvider.notifier).state =
-                                rideSession.copyWith(
+                            ref
+                                .read(rideSessionProvider.notifier)
+                                .state = rideSession.copyWith(
                               sessionId: history.id,
                               userId: history.userId,
                               startedAtMs: history.startedAtMs,

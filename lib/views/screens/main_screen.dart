@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velo_toulouse_redesign/core/theme/theme.dart';
 import 'package:velo_toulouse_redesign/views/screens/map_screen.dart';
-import 'package:velo_toulouse_redesign/views/screens/user_profile_screen.dart';
+import 'package:velo_toulouse_redesign/views/screens/user_profile/user_profile_screen.dart';
 import 'package:velo_toulouse_redesign/views/screens/select_pass_screen.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
