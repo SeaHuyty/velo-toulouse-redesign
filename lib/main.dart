@@ -8,6 +8,7 @@ import 'package:velo_toulouse_redesign/core/providers/auth_provider.dart';
 import 'package:velo_toulouse_redesign/views/screens/auth/login_screen.dart';
 import 'package:velo_toulouse_redesign/views/screens/main_screen.dart';
 import 'package:velo_toulouse_redesign/views/screens/splash_screen.dart';
+import 'package:device_preview/device_preview.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +18,15 @@ Future<void> main() async {
   if (token.isEmpty) {
     throw Exception('Missing MAPBOX_ACCESS_TOKEN in .env file');
   }
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(
+    DevicePreview(
+      enabled: true,
+      tools: const [
+        ...DevicePreview.defaultTools,
+      ],
+      builder: (context) => const ProviderScope(child: MyApp()),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
