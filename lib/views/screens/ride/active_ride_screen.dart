@@ -9,7 +9,7 @@ import 'package:velo_toulouse_redesign/core/utils/app_config.dart';
 import 'package:velo_toulouse_redesign/data/models/station_model.dart';
 import 'package:velo_toulouse_redesign/view_model/station_viewmodel.dart';
 import 'package:velo_toulouse_redesign/view_model/ride_history_viewmodel.dart';
-import 'package:velo_toulouse_redesign/views/screens/ride_summary_screen.dart';
+import 'package:velo_toulouse_redesign/views/screens/ride/ride_summary_screen.dart';
 import 'package:velo_toulouse_redesign/views/widgets/legend_pill.dart';
 import 'package:velo_toulouse_redesign/views/widgets/ride_bottom_sheet.dart';
 import 'package:velo_toulouse_redesign/views/widgets/station_selection_card.dart';

@@ -4,7 +4,7 @@ import 'package:velo_toulouse_redesign/core/providers/ride_session_provider.dart
 import 'package:velo_toulouse_redesign/core/theme/theme.dart';
 import 'package:velo_toulouse_redesign/data/models/bike_model.dart';
 import 'package:velo_toulouse_redesign/view_model/station_viewmodel.dart';
-import 'package:velo_toulouse_redesign/views/screens/active_ride_screen.dart';
+import 'package:velo_toulouse_redesign/views/screens/ride/active_ride_screen.dart';
 import 'package:velo_toulouse_redesign/views/widgets/actions/button.dart';
 import 'package:velo_toulouse_redesign/views/widgets/display/top_bar/app_bar.dart';
 

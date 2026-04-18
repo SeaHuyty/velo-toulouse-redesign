@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:velo_toulouse_redesign/view_model/user_viewmodel.dart';
-import '../../data/models/pass.dart';
+import '../data/models/pass_model.dart';
 import '../core/providers/pass_booking_provider.dart';
 
 

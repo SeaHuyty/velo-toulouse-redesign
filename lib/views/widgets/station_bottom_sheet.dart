@@ -3,9 +3,9 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:velo_toulouse_redesign/core/theme/theme.dart';
 import 'package:velo_toulouse_redesign/data/models/station_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:velo_toulouse_redesign/view_model/pass_view_model.dart';
-import 'package:velo_toulouse_redesign/views/screens/pass_booking_screen.dart';
-import 'package:velo_toulouse_redesign/views/screens/bike_renting_screen.dart';
+import 'package:velo_toulouse_redesign/view_model/pass_viewmodel.dart';
+import 'package:velo_toulouse_redesign/views/screens/passes/pass_booking_screen.dart';
+import 'package:velo_toulouse_redesign/views/screens/ride/bike_renting_screen.dart';
 
 class StationBottomSheet extends ConsumerWidget {
   final StationModel station;
