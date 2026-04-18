@@ -1,5 +1,4 @@
 
-
 class PassModel {
   final String id;
   final String title;
@@ -13,12 +12,4 @@ class PassModel {
     required this.duration,
   });
 
-  factory PassModel.fromMap(String id, Map<String, dynamic> data) {
-    return PassModel(
-      id: id,
-      title: data['title'] as String,
-      price: data['price'] as double,
-      duration: data['duration'] as String,
-    );
-  }
 }

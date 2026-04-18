@@ -68,33 +68,29 @@ class _PaymentSuccessScreenState extends ConsumerState<PaymentSuccessScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>  MainScreen(),
+                      builder: (context) => const MainScreen(),
                     ),
                   );
                 } else {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>  ActiveRideScreen(),
+                      builder: (context) => const ActiveRideScreen(),
                     ),
                   );
                 }
               },
-
+            ),
             const SizedBox(height: 150),
-
             VeloButton(
               text: 'Start Riding',
               onPressed: _isStartingRide
                   ? null
                   : () async {
-                      final authUser = ref
-                          .read(authStateProvider)
-                          .asData
-                          ?.value;
+                      final authUser = ref.read(authStateProvider).asData?.value;
                       if (authUser == null) return;
 
-                      if (rideSession.sessionId == null) {
+                      if (rideSession!.sessionId == null) {
                         setState(() {
                           _isStartingRide = true;
                         });
@@ -111,16 +107,15 @@ class _PaymentSuccessScreenState extends ConsumerState<PaymentSuccessScreen> {
                               );
 
                           if (history != null) {
-                            ref
-                                .read(rideSessionProvider.notifier)
-                                .state = rideSession.copyWith(
+                            ref.read(rideSessionProvider.notifier).state =
+                                rideSession.copyWith(
                               sessionId: history.id,
                               userId: history.userId,
                               startedAtMs: history.startedAtMs,
                               amountPaid: history.amountPaid,
                             );
                           }
-                        } finally 
+                        } finally {
                           if (mounted) {
                             setState(() {
                               _isStartingRide = false;
