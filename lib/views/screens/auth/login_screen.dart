@@ -60,7 +60,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     });
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -122,7 +122,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       children: [
                         const Text("Don't have account? "),
                         GestureDetector(
-                          onTap: () => Navigator.pushReplacement(
+                          onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (_) => const SignUpScreen(),
