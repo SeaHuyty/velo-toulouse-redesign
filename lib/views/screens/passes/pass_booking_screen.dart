@@ -23,8 +23,7 @@ class PassbookingScreen extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<PassbookingScreen> createState() =>
-      _BikeRentingScreenState();
+  ConsumerState<PassbookingScreen> createState() => _BikeRentingScreenState();
 }
 
 class _BikeRentingScreenState extends ConsumerState<PassbookingScreen> {
@@ -197,15 +196,15 @@ class _BikeRentingScreenState extends ConsumerState<PassbookingScreen> {
                                   bikeNumber: widget.bike.plateNumber,
                                 );
                           } catch (_) {
-                            if (mounted) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    'Could not unlock bike. Please try again.',
-                                  ),
+                            if (!context.mounted) return;
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  'Could not unlock bike. Please try again.',
                                 ),
-                              );
-                            }
+                              ),
+                            );
                             return;
                           }
 
@@ -218,7 +217,7 @@ class _BikeRentingScreenState extends ConsumerState<PassbookingScreen> {
                             fromStationAddress: widget.stationAddress,
                           );
 
-                          if (!mounted) return;
+                          if (!context.mounted) return;
 
                           Navigator.push(
                             context,
