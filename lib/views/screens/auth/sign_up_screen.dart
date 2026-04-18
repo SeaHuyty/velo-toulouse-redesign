@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velo_toulouse_redesign/core/theme/theme.dart';
 import 'package:velo_toulouse_redesign/data/models/user_model.dart';
 import 'package:velo_toulouse_redesign/view_model/user_viewmodel.dart';
-import 'package:velo_toulouse_redesign/views/screens/main_screen.dart';
+import 'package:velo_toulouse_redesign/views/screens/core/main_screen.dart';
 import 'package:velo_toulouse_redesign/views/widgets/display/top_bar/app_bar.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:velo_toulouse_redesign/data/models/pass.dart';
+import 'package:velo_toulouse_redesign/data/models/pass_model.dart';
 import '../../../core/theme/theme.dart';
 
 class PaymentInfoCardWidget extends StatelessWidget {

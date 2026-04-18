@@ -1,12 +1,12 @@
 import 'package:velo_toulouse_redesign/view_model/user_viewmodel.dart';
-import 'package:velo_toulouse_redesign/views/screens/pass_payment_screen.dart';
-import '../../core/providers/pass_booking_provider.dart';
-import '../../view_model/pass_view_model.dart';
-import '../widgets/display/card/pass_card_widget.dart';
+import 'package:velo_toulouse_redesign/views/screens/passes/pass_payment_screen.dart';
+import '../../../core/providers/pass_booking_provider.dart';
+import '../../../view_model/pass_viewmodel.dart';
+import '../../widgets/display/card/pass_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../widgets/actions/button.dart';
-import '../../core/theme/theme.dart';
+import '../../widgets/actions/button.dart';
+import '../../../core/theme/theme.dart';
 
 class SelectPassScreen extends ConsumerWidget {
   const SelectPassScreen({super.key});
